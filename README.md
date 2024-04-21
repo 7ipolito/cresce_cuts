@@ -44,7 +44,7 @@ Você pode acessar os arquivos do projeto clicando [aqui](https://github.com/gui
 
 # Autores
 
-| [<img loading="lazy" src="https://avatars.githubusercontent.com/u/45522944?v=4" width=115><br><sub>Allan Hipólito </sub>](https://github.com/allanwalker23) 
+[<img loading="lazy" src="https://avatars.githubusercontent.com/u/45522944?v=4" width=115><br><sub>Allan Hipólito </sub>](https://github.com/allanwalker23) 
 
 
 <p align="center">
