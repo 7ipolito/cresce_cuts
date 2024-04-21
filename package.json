@@ -8,16 +8,21 @@
     "test:ci": "jest --ci"
   },
   "dependencies": {
+    "@uploadthing/react": "^6.4.4",
     "next": "latest",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "server-only": "^0.0.1"
+    "uploadthing": "^6.9.0"
   },
   "devDependencies": {
+    "@rocketseat/eslint-config": "^2.2.2",
     "@testing-library/jest-dom": "6.1.5",
+    "prettier-plugin-tailwindcss": "^0.5.11",
     "@testing-library/react": "14.1.2",
     "@types/jest": "29.5.11",
     "@types/react": "18.2.45",
+    "eslint": "^8",
+    "eslint-config-next": "14.1.1",
     "autoprefixer": "^10.4.19",
     "jest": "29.7.0",
     "jest-environment-jsdom": "29.7.0",
