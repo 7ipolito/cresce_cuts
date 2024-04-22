@@ -11,7 +11,8 @@ export default withUt({
         app: 'minmax(18rem, 18rem) 1fr',
       },
       colors: {
-        blue: { background: '#007FBA' },
+        blue: { primary: '#007FBA', hover: '#005a87' },
+        grey: { primary: '#455A64', secondary: '#37474F' },
       },
     },
   },

@@ -1,9 +1,9 @@
 import type { Metadata } from 'next'
-import { Montserrat } from 'next/font/google'
+import { Rubik } from 'next/font/google'
 import './globals.css'
 import { Sidebar } from 'src/components/Sidebar'
 
-const montserrat = Montserrat({ subsets: ['latin'] })
+const rubik = Rubik({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'CresceVendas Gerenciador de Descontos',
@@ -16,11 +16,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={montserrat.className}>
-        <div className="lg:grid-cols-app relative min-h-screen lg:grid dark:bg-zinc-900">
+      <body className={rubik.className}>
+        <div className="relative min-h-screen lg:grid lg:grid-cols-app dark:bg-zinc-900">
           <Sidebar />
 
-          <main className="max-w-screen px-4 pb-12 pt-24 lg:col-start-2 lg:w-auto lg:px-8 lg:pt-8">
+          <main className="max-w-screen mt-8 pb-12 pl-4 pr-4 pt-24 lg:col-start-2 lg:w-auto lg:p-0 lg:pr-4 lg:pt-8">
             {children}
           </main>
         </div>
