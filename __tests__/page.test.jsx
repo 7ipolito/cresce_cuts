@@ -10,6 +10,6 @@ describe('Home', () => {
 
     const messageError = screen.getByRole('texto')
 
-    expect(messageError.textContent).toBe('main')
+    expect(messageError.textContent).toBe('Teste')
   })
 })
