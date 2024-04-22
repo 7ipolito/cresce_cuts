@@ -15,7 +15,7 @@ export function Item({ children, ...props }: ItemProps) {
       {children}
 
       <Select.ItemIndicator className="ml-auto">
-        <Check className="text-blue-primary h-4 w-4 dark:text-violet-300" />
+        <Check className="h-4 w-4 text-blue-primary dark:text-violet-300" />
       </Select.ItemIndicator>
     </Select.Item>
   )

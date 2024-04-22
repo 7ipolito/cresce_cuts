@@ -6,11 +6,13 @@ import * as Select from '../../components/Form/Select'
 import React, { useState } from 'react'
 import Switch from 'components/Switch'
 import { UploadDropzone } from 'utils/uploadthing'
+import { TypeDiscount } from 'utils/types.enum'
 
 // import { Container } from './styles';
 
 const CreateDiscount: React.FC = () => {
   const [imageUploaded, setImageUploaded] = useState()
+  const [discountTypeSelected, setDiscountTypeSelected] = useState()
 
   return (
     <>
@@ -69,51 +71,128 @@ const CreateDiscount: React.FC = () => {
             </label>
             <div className="flex gap-3">
               <Input.Root>
-                <Input.Prefix>
-                  <Mail className="h-5 w-5 text-zinc-500" />
-                </Input.Prefix>
                 <Input.Control
-                  id="email"
-                  type="email"
-                  name="email"
+                  id="description"
+                  type="description"
+                  name="description"
                   defaultValue=""
                   placeholder="Informe a descrição"
                 />
               </Input.Root>
             </div>
           </div>
-          <div className="w-100 flex flex-col items-center gap-2 pb-6 lg:flex-row lg:justify-between">
-            <div className="w-full pt-5">
-              <label
-                htmlFor="email"
-                className="text-sm  text-grey-secondary dark:text-zinc-100"
-              >
-                Preço "DE"
-              </label>
-              <Input.Root>
-                <Input.Control
-                  name="nameDiscount"
-                  id="nameDiscount"
-                  type="text"
-                  defaultValue=""
-                  placeholder="00,00R$"
-                />
-              </Input.Root>
-            </div>
+          <div className="grid gap-3 pt-5">
+            <label
+              htmlFor="email"
+              className="text-sm font-medium text-zinc-700 dark:text-zinc-100"
+            >
+              Tipo de desconto
+            </label>
+            <Select.Root
+              name="typeDiscount"
+              onValueChange={(e) => setDiscountTypeSelected(e)}
+            >
+              <Select.Trigger>
+                <Select.Value placeholder="Selecione o tipo de desconto" />
+              </Select.Trigger>
 
-            <div className="w-full pt-5">
-              <p className="text-sm text-grey-secondary">Preço "POR"</p>
-              <Input.Root>
-                <Input.Control
-                  name="firstName"
-                  id="firstName"
-                  type="text"
-                  defaultValue=""
-                  placeholder="00,00R$"
-                />
-              </Input.Root>
-            </div>
+              <Select.Content>
+                <Select.Item value={TypeDiscount.DEPOR}>
+                  <Select.ItemText>De / Por</Select.ItemText>
+                </Select.Item>
+
+                <Select.Item value={TypeDiscount.LEVEMAISPAGUEMENOS}>
+                  <Select.ItemText>Leve + Pague -</Select.ItemText>
+                </Select.Item>
+                <Select.Item value={TypeDiscount.PERCENTUAL}>
+                  <Select.ItemText>Percentual</Select.ItemText>
+                </Select.Item>
+              </Select.Content>
+            </Select.Root>
           </div>
+          {discountTypeSelected == TypeDiscount.DEPOR && (
+            <div className="w-100 flex flex-col items-center gap-2 pb-6 lg:flex-row lg:justify-between">
+              <div className="w-full pt-5">
+                <label
+                  htmlFor="email"
+                  className="text-sm  text-grey-secondary dark:text-zinc-100"
+                >
+                  Preço "DE"
+                </label>
+                <Input.Root>
+                  <Input.Control
+                    name="nameDiscount"
+                    id="nameDiscount"
+                    type="text"
+                    defaultValue=""
+                    placeholder="00,00R$"
+                  />
+                </Input.Root>
+              </div>
+
+              <div className="w-full pt-5">
+                <p className="text-sm text-grey-secondary">Preço "POR"</p>
+                <Input.Root>
+                  <Input.Control
+                    name="firstName"
+                    id="firstName"
+                    type="text"
+                    defaultValue=""
+                    placeholder="00,00R$"
+                  />
+                </Input.Root>
+              </div>
+            </div>
+          )}
+
+          {discountTypeSelected == TypeDiscount.LEVEMAISPAGUEMENOS && (
+            <div className="w-100 flex flex-col items-center gap-2 pb-6 lg:flex-row lg:justify-between">
+              <div className="w-full pt-5">
+                <label
+                  htmlFor="email"
+                  className="text-sm  text-grey-secondary dark:text-zinc-100"
+                >
+                  Preço
+                </label>
+                <Input.Root>
+                  <Input.Control
+                    name="nameDiscount"
+                    id="nameDiscount"
+                    type="text"
+                    defaultValue=""
+                    placeholder="00,00R$"
+                  />
+                </Input.Root>
+              </div>
+
+              <div className="w-full pt-5">
+                <p className="text-sm text-grey-secondary">Leve</p>
+                <Input.Root>
+                  <Input.Control
+                    name="firstName"
+                    id="firstName"
+                    type="text"
+                    defaultValue=""
+                    placeholder='Valor de "Leve"'
+                  />
+                </Input.Root>
+              </div>
+
+              <div className="w-full pt-5">
+                <p className="text-sm text-grey-secondary">Pague</p>
+                <Input.Root>
+                  <Input.Control
+                    name="firstName"
+                    id="firstName"
+                    type="text"
+                    defaultValue=""
+                    placeholder='Valor de "Pague"'
+                  />
+                </Input.Root>
+              </div>
+            </div>
+          )}
+
           <div className="w-100 flex flex-col items-center gap-2 pb-6 lg:flex-row lg:justify-between">
             <div className="w-full pt-5">
               <label
@@ -173,11 +252,10 @@ const CreateDiscount: React.FC = () => {
                   setImageUploaded(res[0].url)
 
                   console.log('Files: ', res)
-                  alert('Upload Completed')
                 }}
                 onUploadError={(error: Error) => {
                   // Do something with the error.
-                  alert(`ERROR! ${error.message}`)
+                  // alert(`ERROR! ${error.message}`)
                 }}
               />
             )}
