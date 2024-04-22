@@ -9,12 +9,16 @@ import * as Select from './Form/Select'
 import * as Dialog from '@radix-ui/react-dialog'
 import { Cross2Icon } from '@radix-ui/react-icons'
 import { Discount } from 'utils/DiscountProps'
+import * as Input from '../components/Form/Input'
+
 import { TypeDiscount } from 'utils/types.enum'
+import { Textarea } from './Form/Textarea'
 type DataTableProps = { columns: any[]; data: Discount[] }
 const DataTable = ({ columns, data }: DataTableProps) => {
   const [discountSelected, setDiscountSelected] = useState<Discount>(
     {} as Discount,
   )
+  const [discountEditable, setDiscountEditable] = useState(false)
 
   useEffect(() => {
     console.log(discountSelected)
@@ -140,52 +144,129 @@ const DataTable = ({ columns, data }: DataTableProps) => {
               <Cross2Icon />
             </button>
           </Dialog.Close>
-          <Dialog.Description className="flex flex-row justify-between">
-            <div className=" w-96 px-4">
+          <Dialog.Description
+            className={!discountEditable ? 'flex flex-row justify-between' : ''}
+          >
+            <div className=" flex w-full items-center justify-center px-4">
               <img src={discountSelected.image} width={150} />
             </div>
-            <div>
-              {discountSelected.type !== TypeDiscount.DEPOR && (
-                <p className="text-2xl font-medium text-grey-primary">
-                  {discountSelected.discountText}
+            <div className="pt-4">
+              {discountSelected.type !== TypeDiscount.DEPOR &&
+                (!discountEditable ? (
+                  <p className="text-2xl font-medium text-grey-primary">
+                    {discountSelected.discountText}
+                  </p>
+                ) : (
+                  <Input.Root className="mb-2">
+                    <Input.Control
+                      name="nameDiscount"
+                      id="nameDiscount"
+                      type="text"
+                      defaultValue={discountSelected.discountText}
+                    />
+                  </Input.Root>
+                ))}
+              {!discountEditable ? (
+                <p className="text-sm text-grey-primary">
+                  {discountSelected.title}
                 </p>
+              ) : (
+                <Input.Root className="mb-2">
+                  <Input.Control
+                    name="discountText"
+                    id="discountText"
+                    type="text"
+                    defaultValue={discountSelected.title}
+                  />
+                </Input.Root>
               )}
-              <p className="text-sm text-grey-primary">
-                {discountSelected.title}
-              </p>
-              <p className="text-sm text-grey-secondary">
-                {discountSelected.description}
-              </p>
+              {!discountEditable ? (
+                <p className="text-sm text-grey-primary">
+                  {discountSelected.description}
+                </p>
+              ) : (
+                <div className="mb-2">
+                  <Textarea
+                    name="bio"
+                    id="bio"
+                    defaultValue={discountSelected.description}
+                  />
+                </div>
+              )}
+
               {discountSelected.type == TypeDiscount.DEPOR ||
               discountSelected.type == TypeDiscount.PERCENTUAL ? (
                 <div>
                   {discountSelected.type == TypeDiscount.DEPOR && <p>de</p>}
                   <p className="text-2xl font-medium text-grey-secondary line-through">
-                    {discountSelected.price}
+                    {!discountEditable ? (
+                      <p className="text-2xl font-medium text-grey-secondary">
+                        {discountSelected.price}
+                      </p>
+                    ) : (
+                      <Input.Root className="mb-2">
+                        <Input.Control
+                          name="discountText"
+                          id="discountText"
+                          type="text"
+                          placeholder="Preço Normal"
+                          defaultValue={discountSelected.price}
+                        />
+                      </Input.Root>
+                    )}
                   </p>
                   {discountSelected.type == TypeDiscount.DEPOR && (
                     <span>por</span>
                   )}
-                  <p className="text-2xl font-medium text-grey-secondary">
-                    {discountSelected.priceWithDiscount}
-                  </p>
+                  {!discountEditable ? (
+                    <p className="text-2xl font-medium text-grey-secondary">
+                      {discountSelected.priceWithDiscount}
+                    </p>
+                  ) : (
+                    <Input.Root className="mb-2">
+                      <Input.Control
+                        name="discountText"
+                        id="discountText"
+                        placeholder="Preço com desconto"
+                        type="text"
+                        defaultValue={discountSelected.priceWithDiscount}
+                      />
+                    </Input.Root>
+                  )}
                 </div>
-              ) : (
+              ) : !discountEditable ? (
                 <p className="text-2xl font-medium text-grey-secondary">
                   {discountSelected.price}
                 </p>
+              ) : (
+                <Input.Root className="mb-2">
+                  <Input.Control
+                    name="discountText"
+                    id="discountText"
+                    type="text"
+                    defaultValue={discountSelected.price}
+                  />
+                </Input.Root>
               )}
             </div>
           </Dialog.Description>
 
           <div className="mt-[25px] flex justify-end">
             <div className="flex w-full justify-between gap-2">
-              <Button className="w-full" variant="outline">
-                Editar
+              <Button
+                className="w-full"
+                variant="outline"
+                onClick={() => setDiscountEditable(!discountEditable)}
+              >
+                {discountEditable ? 'Cancelar edição' : 'Editar'}
               </Button>
-              <Dialog.Close asChild>
-                <Button className="w-full">Fechar</Button>
-              </Dialog.Close>
+              {!discountEditable ? (
+                <Dialog.Close asChild>
+                  <Button className="w-full">Fechar</Button>
+                </Dialog.Close>
+              ) : (
+                <Button className="w-full">Salvar</Button>
+              )}
             </div>
           </div>
         </Dialog.Content>
