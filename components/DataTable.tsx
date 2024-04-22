@@ -7,9 +7,9 @@ import { Button } from './Button'
 import Switch from './Switch'
 import * as Select from './Form/Select'
 import * as Dialog from '@radix-ui/react-dialog'
-import { TypeDiscount } from 'utils/types.enum'
 import { Cross2Icon } from '@radix-ui/react-icons'
 import { Discount } from 'utils/DiscountProps'
+import { TypeDiscount } from 'utils/types.enum'
 type DataTableProps = { columns: any[]; data: Discount[] }
 const DataTable = ({ columns, data }: DataTableProps) => {
   const [discountSelected, setDiscountSelected] = useState<Discount>(
