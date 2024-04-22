@@ -7,6 +7,9 @@ export default withUt({
   ],
   theme: {
     extend: {
+      gridTemplateColumns: {
+        app: 'minmax(18rem, 18rem) 1fr',
+      },
       colors: {
         blue: { background: '#007FBA' },
       },
