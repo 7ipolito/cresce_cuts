@@ -5,11 +5,11 @@
 import React, { useEffect, useState } from 'react'
 import { Button } from './Button'
 import Switch from './Switch'
-import * as Select from '../components/Form/Select'
+import * as Select from './Form/Select'
 import * as Dialog from '@radix-ui/react-dialog'
-import { TypeDiscount } from 'src/utils/types.enum'
+import { TypeDiscount } from 'utils/types.enum'
 import { Cross2Icon } from '@radix-ui/react-icons'
-import { Discount } from 'src/utils/DiscountProps'
+import { Discount } from 'utils/DiscountProps'
 type DataTableProps = { columns: any[]; data: Discount[] }
 const DataTable = ({ columns, data }: DataTableProps) => {
   const [discountSelected, setDiscountSelected] = useState<Discount>(

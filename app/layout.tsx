@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { Rubik } from 'next/font/google'
-import './globals.css'
-import { Sidebar } from 'src/components/Sidebar'
+import '../styles/globals.css'
+import { Sidebar } from 'components/Sidebar'
 
 const rubik = Rubik({ subsets: ['latin'] })
 

@@ -2,8 +2,8 @@
 /* eslint-disable react/jsx-key */
 'use client'
 import React from 'react'
-import DataTable from 'src/components/DataTable'
-import { discounts, titles } from 'src/utils/dataMocked'
+import DataTable from 'components/DataTable'
+import { discounts, titles } from 'utils/dataMocked'
 
 export default function App() {
   return (
