@@ -93,7 +93,6 @@ export const DiscountProvider: React.FC = ({ children }: any) => {
     const newlocalStorageDiscounts: Discount[] = localStorageDiscounts
       ? JSON.parse(localStorageDiscounts)
       : ''
-    console.log(newlocalStorageDiscounts)
 
     return newlocalStorageDiscounts
   }

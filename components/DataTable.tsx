@@ -2,7 +2,7 @@
 /* eslint-disable eqeqeq */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react/jsx-key */
-import React, { useEffect, useState } from 'react'
+import React, { ReactNode, useEffect, useState } from 'react'
 import { Button } from './Button'
 import Switch from './Switch'
 import * as Select from './Form/Select'
@@ -12,15 +12,49 @@ import { Discount } from 'utils/DiscountProps'
 import { TypeDiscount } from 'utils/types.enum'
 import Modal from './Modal'
 import Link from 'next/link'
+import { ErrorFormTypes } from 'utils/erros.enum'
+import { PatternTimeout } from 'utils/timeout.enum'
 type DataTableProps = { columns: any[]; data: Discount[] }
 const DataTable = ({ columns, data }: DataTableProps) => {
   const [discountSelected, setDiscountSelected] = useState<Discount>(
     {} as Discount,
   )
+  const [statusFilterSelected, setStatusFilterSelected] = useState(null)
+  const [typeDiscount, setTypeDiscountSelected] = useState(null)
+  const [filteredData, setFilteredData] = useState<Discount[]>(data)
+  const [loading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    console.log(discountSelected)
-  }, [discountSelected])
+    try {
+      setTimeout(() => {
+        setIsLoading(false)
+      }, PatternTimeout.TIMEOUTDATATABLE)
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setIsLoading(false)
+    }
+
+    const applyFilter = () => {
+      let filtered = data
+
+      if (statusFilterSelected !== null) {
+        filtered = filtered.filter((discount) =>
+          statusFilterSelected == '1' ? discount.activate : !discount.activate,
+        )
+      }
+
+      if (typeDiscount !== null && typeDiscount !== TypeDiscount.NENHUM) {
+        filtered = filtered.filter((discount) => discount.type === typeDiscount)
+        console.log(filtered)
+      }
+
+      setFilteredData(filtered)
+    }
+
+    applyFilter()
+  }, [data, statusFilterSelected, typeDiscount, loading])
+
   return (
     <Dialog.Root>
       <div className="rounded-md bg-white px-4 py-6">
@@ -35,17 +69,22 @@ const DataTable = ({ columns, data }: DataTableProps) => {
         <div className="w-100 flex flex-col items-center gap-2 pb-6 lg:flex-row lg:justify-between">
           <div className="w-full">
             <p className="text-sm text-grey-secondary">Status</p>
-            <Select.Root name="timezone">
+            <Select.Root
+              name="statusSelected"
+              onValueChange={(e) => {
+                setStatusFilterSelected(e)
+              }}
+            >
               <Select.Trigger>
                 <Select.Value placeholder="Selecione o status" />
               </Select.Trigger>
 
               <Select.Content>
-                <Select.Item value="utc-3">
+                <Select.Item value="1">
                   <Select.ItemText>Ativado</Select.ItemText>
                 </Select.Item>
 
-                <Select.Item value="utc-1">
+                <Select.Item value="0">
                   <Select.ItemText>Desativado</Select.ItemText>
                 </Select.Item>
               </Select.Content>
@@ -54,19 +93,24 @@ const DataTable = ({ columns, data }: DataTableProps) => {
 
           <div className="w-full">
             <p className="text-sm text-grey-secondary">Tipo desconto</p>
-            <Select.Root name="timezone">
+            <Select.Root
+              name="typeDiscount"
+              onValueChange={(e) => {
+                setTypeDiscountSelected(e)
+              }}
+            >
               <Select.Trigger>
                 <Select.Value placeholder="Selecione o tipo de desconto" />
               </Select.Trigger>
 
               <Select.Content>
-                <Select.Item value="1">
+                <Select.Item value={TypeDiscount.DEPOR}>
                   <Select.ItemText>De/Por</Select.ItemText>
                 </Select.Item>
-                <Select.Item value="2">
+                <Select.Item value={TypeDiscount.PERCENTUAL}>
                   <Select.ItemText>Percentual</Select.ItemText>
                 </Select.Item>
-                <Select.Item value="3">
+                <Select.Item value={TypeDiscount.LEVEMAISPAGUEMENOS}>
                   <Select.ItemText>Leve + Pague -</Select.ItemText>
                 </Select.Item>
               </Select.Content>
@@ -85,7 +129,7 @@ const DataTable = ({ columns, data }: DataTableProps) => {
               </tr>
             </thead>
             <tbody>
-              {data.map((data: Discount) => (
+              {filteredData.map((data: Discount) => (
                 <tr className="border-b bg-white dark:border-gray-700 dark:bg-gray-800">
                   <td className="px-14 py-4">
                     <div className="flex flex-row items-center">
@@ -123,7 +167,6 @@ const DataTable = ({ columns, data }: DataTableProps) => {
                       <Button
                         variant="ghost"
                         onClick={() => {
-                          console.log(discountSelected)
                           setDiscountSelected(data)
                         }}
                       >
@@ -135,6 +178,18 @@ const DataTable = ({ columns, data }: DataTableProps) => {
               ))}
             </tbody>
           </table>
+          {!loading && !filteredData[0] && (
+            <div className="flex w-full flex-1 items-center justify-center pt-5">
+              {' '}
+              <p>{ErrorFormTypes.SEMDADOS}</p>
+            </div>
+          )}
+          {loading && (
+            <div className="flex w-full flex-1 items-center justify-center pt-5">
+              {' '}
+              <p>{ErrorFormTypes.CARREGANDO}</p>
+            </div>
+          )}
         </div>
       </div>
       <Modal discountSelected={discountSelected} />
