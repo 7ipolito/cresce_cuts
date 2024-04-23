@@ -5,62 +5,24 @@ import * as Select from '../../components/Form/Select'
 import React, { useState } from 'react'
 import Switch from 'components/Switch'
 import { UploadDropzone } from 'utils/uploadthing'
-import { TypeDiscount } from 'utils/types.enum'
+import { TypeDiscount } from 'enums/types.enum'
 
 import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { number, object, string } from 'yup'
-import { ErrorFormTypes } from 'utils/erros.enum'
-
-export interface IFormInput {
-  nameDiscount: string
-  description: string
-  typeDiscount: string
-  price: number
-  percentDiscount: number
-  priceWithDiscount: number
-  take: number
-  pay: number
-  activateDate: string
-  desactiveDate: string
-}
+import { IFormInputCreateDiscountProps } from 'types/IFormInputCreateDiscountProps'
+import { schemaCreateDiscount } from 'utils/schemaCreateDiscount'
 
 const CreateDiscount: React.FC = () => {
   const [imageUploaded, setImageUploaded] = useState()
   const [discountTypeSelected, setDiscountTypeSelected] = useState()
 
-  const schema = object().shape({
-    nameDiscount: string().required(ErrorFormTypes.OBRIGATORIO),
-    description: string().required(ErrorFormTypes.OBRIGATORIO),
-
-    price: number()
-      .typeError(ErrorFormTypes.VALOROBRIGATORIO)
-      .required(ErrorFormTypes.OBRIGATORIO),
-
-    priceWithDiscount: number()
-      .typeError(ErrorFormTypes.VALOROBRIGATORIO)
-      .required(ErrorFormTypes.OBRIGATORIO),
-
-    take: number()
-      .typeError(ErrorFormTypes.VALOROBRIGATORIO)
-      .required(ErrorFormTypes.OBRIGATORIO),
-    pay: number()
-      .typeError(ErrorFormTypes.VALOROBRIGATORIO)
-      .required(ErrorFormTypes.OBRIGATORIO),
-    activateDate: string().required(ErrorFormTypes.OBRIGATORIO),
-    desactiveDate: string().required(ErrorFormTypes.OBRIGATORIO),
-    typeDiscount: string().required(ErrorFormTypes.OBRIGATORIO),
-    percentDiscount: number()
-      .typeError(ErrorFormTypes.VALOROBRIGATORIO)
-      .required(ErrorFormTypes.OBRIGATORIO),
-  })
   const {
     register,
     handleSubmit,
     control,
     formState: { errors },
-  } = useForm<IFormInput>({
-    resolver: yupResolver(schema),
+  } = useForm<IFormInputCreateDiscountProps>({
+    resolver: yupResolver(schemaCreateDiscount),
   })
 
   const onSubmit = async (data: any) => {}

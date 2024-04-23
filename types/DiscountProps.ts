@@ -1,4 +1,4 @@
-import { TypeDiscount } from './types.enum'
+import { TypeDiscount } from '../enums/types.enum'
 
 export interface Discount {
   id: number

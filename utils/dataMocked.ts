@@ -1,5 +1,5 @@
-import { Discount } from './DiscountProps'
-import { TypeDiscount } from './types.enum'
+import { Discount } from '../types/DiscountProps'
+import { TypeDiscount } from '../enums/types.enum'
 
 export const discounts: Discount[] = [
   {

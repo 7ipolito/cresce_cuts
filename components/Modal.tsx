@@ -1,65 +1,27 @@
 import { Cross2Icon } from '@radix-ui/react-icons'
 import React, { useState } from 'react'
-import { TypeDiscount } from 'utils/types.enum'
+import { TypeDiscount } from 'enums/types.enum'
 import { Button } from './Button'
 import * as Dialog from '@radix-ui/react-dialog'
-import { Discount } from 'utils/DiscountProps'
+import { Discount } from 'types/DiscountProps'
 import * as Input from '../components/Form/Input'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { number, object, string } from 'yup'
-import { ErrorFormTypes } from 'utils/erros.enum'
 import { twMerge } from 'tailwind-merge'
-
-export interface IFormInput {
-  title: string
-  description: string
-  typeDiscount: string
-  price: number
-  percentDiscount: number
-  priceWithDiscount: number
-  take: number
-  pay: number
-  activateDate: string
-  desactiveDate: string
-}
+import { IFormInputEditDiscountProps } from 'types/IFormInputEditDiscountProps'
+import { schemaEditDiscount } from 'utils/schemaEditDiscount'
 
 type ModalProps = { discountSelected: Discount }
 const Modal = ({ discountSelected }: ModalProps) => {
   const [discountEditable, setDiscountEditable] = useState(false)
 
-  const schema = object().shape({
-    title: string().required(ErrorFormTypes.OBRIGATORIO),
-    description: string().required(ErrorFormTypes.OBRIGATORIO),
-
-    price: number()
-      .typeError(ErrorFormTypes.VALOROBRIGATORIO)
-      .required(ErrorFormTypes.OBRIGATORIO),
-
-    priceWithDiscount: number()
-      .typeError(ErrorFormTypes.VALOROBRIGATORIO)
-      .required(ErrorFormTypes.OBRIGATORIO),
-
-    take: number()
-      .typeError(ErrorFormTypes.VALOROBRIGATORIO)
-      .required(ErrorFormTypes.OBRIGATORIO),
-    pay: number()
-      .typeError(ErrorFormTypes.VALOROBRIGATORIO)
-      .required(ErrorFormTypes.OBRIGATORIO),
-    activateDate: string().required(ErrorFormTypes.OBRIGATORIO),
-    desactiveDate: string().required(ErrorFormTypes.OBRIGATORIO),
-    typeDiscount: string().required(ErrorFormTypes.OBRIGATORIO),
-    percentDiscount: number()
-      .typeError(ErrorFormTypes.VALOROBRIGATORIO)
-      .required(ErrorFormTypes.OBRIGATORIO),
-  })
   const {
     register,
     handleSubmit,
 
     formState: { errors },
-  } = useForm<IFormInput>({
-    resolver: yupResolver(schema),
+  } = useForm<IFormInputEditDiscountProps>({
+    resolver: yupResolver(schemaEditDiscount),
   })
 
   const onSubmit = async (data: any) => {}

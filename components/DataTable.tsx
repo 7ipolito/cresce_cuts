@@ -2,18 +2,18 @@
 /* eslint-disable eqeqeq */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react/jsx-key */
-import React, { ReactNode, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button } from './Button'
 import Switch from './Switch'
 import * as Select from './Form/Select'
 import * as Dialog from '@radix-ui/react-dialog'
-import { Discount } from 'utils/DiscountProps'
+import { Discount } from 'types/DiscountProps'
 
-import { TypeDiscount } from 'utils/types.enum'
+import { TypeDiscount } from 'enums/types.enum'
 import Modal from './Modal'
 import Link from 'next/link'
-import { ErrorFormTypes } from 'utils/erros.enum'
-import { PatternTimeout } from 'utils/timeout.enum'
+import { ErrorFormTypes } from 'enums/erros.enum'
+import { PatternTimeout } from 'enums/timeout.enum'
 import { useDiscount } from 'hooks/useDiscount'
 type DataTableProps = { columns: any[]; data: Discount[] }
 const DataTable = ({ columns, data }: DataTableProps) => {
@@ -47,14 +47,20 @@ const DataTable = ({ columns, data }: DataTableProps) => {
 
       if (typeDiscount !== null && typeDiscount !== TypeDiscount.NENHUM) {
         filtered = filtered.filter((discount) => discount.type === typeDiscount)
-        console.log(filtered)
       }
 
       setFilteredData(filtered)
     }
 
     applyFilter()
-  }, [data, statusFilterSelected, typeDiscount, loading])
+  }, [
+    data,
+    statusFilterSelected,
+    typeDiscount,
+    loading,
+    filteredData,
+    getDiscounts,
+  ])
 
   return (
     <Dialog.Root>

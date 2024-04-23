@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react'
 import DataTable from 'components/DataTable'
 import { titles } from 'utils/dataMocked'
 import { useDiscount } from 'hooks/useDiscount'
-import { Discount } from 'utils/DiscountProps'
+import { Discount } from 'types/DiscountProps'
 
 export default function App() {
   const [discounts, setDiscounts] = useState<Discount[]>([])
