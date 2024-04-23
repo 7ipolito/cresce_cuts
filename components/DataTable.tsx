@@ -11,6 +11,7 @@ import { Discount } from 'utils/DiscountProps'
 
 import { TypeDiscount } from 'utils/types.enum'
 import Modal from './Modal'
+import Link from 'next/link'
 type DataTableProps = { columns: any[]; data: Discount[] }
 const DataTable = ({ columns, data }: DataTableProps) => {
   const [discountSelected, setDiscountSelected] = useState<Discount>(
@@ -27,7 +28,9 @@ const DataTable = ({ columns, data }: DataTableProps) => {
           <h2 className="text-xl font-thin text-grey-primary">
             Descontos cadastrados
           </h2>
-          <Button>Novo Desconto</Button>
+          <Link href="/create-discount">
+            <Button>Novo Desconto</Button>
+          </Link>
         </div>
         <div className="w-100 flex flex-col items-center gap-2 pb-6 lg:flex-row lg:justify-between">
           <div className="w-full">
