@@ -1,11 +1,19 @@
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable react/jsx-key */
 'use client'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import DataTable from 'components/DataTable'
-import { discounts, titles } from 'utils/dataMocked'
+import { titles } from 'utils/dataMocked'
+import { useDiscount } from 'hooks/useDiscount'
+import { Discount } from 'utils/DiscountProps'
 
 export default function App() {
+  const [discounts, setDiscounts] = useState<Discount[]>([])
+  const { getDiscounts } = useDiscount()
+
+  useEffect(() => {
+    setDiscounts(getDiscounts())
+  }, [])
   return (
     <div className="app">
       <div className="pb-6">

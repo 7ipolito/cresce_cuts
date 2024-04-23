@@ -95,16 +95,26 @@ const DataTable = ({ columns, data }: DataTableProps) => {
                       <p className="ml-4">{data.title}</p>
                     </div>
                   </td>
-
                   <td className="px-6 py-4">
                     {data.type == TypeDiscount.DEPOR
                       ? 'De / Por'
                       : data.type == TypeDiscount.LEVEMAISPAGUEMENOS
                         ? 'Leve + Pague -'
-                        : 'Percentual'}
+                        : data.type == TypeDiscount.PERCENTUAL
+                          ? data.type == TypeDiscount.PERCENTUAL
+                          : 'NENHUM'}
                   </td>
-                  <td className="px-6 py-4">{data.activationDate}</td>
-                  <td className="px-6 py-4">{data.desactivationDate}</td>
+                  <td className="px-6 py-4">
+                    {data.activationDate != ''
+                      ? data.activationDate
+                      : 'Sem data'}
+                  </td>
+                  <td className="px-6 py-4">
+                    {' '}
+                    {data.desactivationDate != ''
+                      ? data.desactivationDate
+                      : 'Sem data'}
+                  </td>
                   <td className="px-6 py-4">
                     <Switch checked={data.activate} />
                   </td>
