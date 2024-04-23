@@ -93,7 +93,7 @@ const Modal = ({ discountSelected }: ModalProps) => {
               <img src={discountSelected.image} width={150} />
             </div>
             <div className="pt-4">
-              {discountSelected.type !== TypeDiscount.DEPOR &&
+              {discountSelected.type == TypeDiscount.PERCENTUAL &&
                 (!discountEditable ? (
                   <p className="text-2xl font-medium text-grey-primary">
                     {discountSelected.percentDiscount}% OFF
@@ -113,6 +113,47 @@ const Modal = ({ discountSelected }: ModalProps) => {
                     <span className=" text-red-500">
                       {errors.percentDiscount?.message}
                     </span>
+                  </div>
+                ))}
+
+              {discountSelected.type == TypeDiscount.LEVEMAISPAGUEMENOS &&
+                (!discountEditable ? (
+                  <p className="text-2xl font-medium text-grey-primary">
+                    Leve {discountSelected.take} pague {discountSelected.pay}
+                  </p>
+                ) : (
+                  <div>
+                    <div className="flex flex-row">
+                      <Input.Root className="mb-2 ">
+                        <input
+                          {...register('take')}
+                          name="take"
+                          id="take"
+                          type="text"
+                          placeholder="Valor de 'leve'"
+                          defaultValue={discountSelected.take}
+                          className="flex-1  border-0 bg-transparent p-0 text-zinc-900 placeholder-zinc-600 outline-none focus:ring-0 dark:text-zinc-100 dark:placeholder-zinc-400"
+                        />
+                      </Input.Root>
+                    </div>
+                    <span className=" text-red-500">
+                      {errors.take?.message}
+                    </span>
+                    <div>
+                      <Input.Root className="mb-2 ">
+                        <input
+                          {...register('pay')}
+                          name="pay"
+                          id="pay"
+                          type="text"
+                          placeholder="Valor de 'pague'"
+                          defaultValue={discountSelected.pay}
+                          className="flex-1  border-0 bg-transparent p-0 text-zinc-900 placeholder-zinc-600 outline-none focus:ring-0 dark:text-zinc-100 dark:placeholder-zinc-400"
+                        />
+                      </Input.Root>
+                    </div>
+
+                    <span className=" text-red-500">{errors.pay?.message}</span>
                   </div>
                 ))}
               {!discountEditable ? (

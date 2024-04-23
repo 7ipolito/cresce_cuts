@@ -10,7 +10,7 @@ export interface Discount {
   price: number
   take?: number
   pay?: number
-  percentDiscount: number
+  percentDiscount?: number
   priceWithDiscount?: number
   priceBefore?: number
   discountText?: string

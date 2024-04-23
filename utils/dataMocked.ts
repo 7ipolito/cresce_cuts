@@ -48,7 +48,6 @@ export const discounts: Discount[] = [
     priceWithDiscount: 99.0,
     type: TypeDiscount.PERCENTUAL,
     percentDiscount: 10,
-
     activationDate: '22/04/2026',
     desactivationDate: '22/04/2026',
     activate: true,
