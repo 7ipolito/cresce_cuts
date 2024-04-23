@@ -2,7 +2,7 @@
 import { Button } from 'components/Button'
 import * as Input from '../../components/Form/Input'
 import * as Select from '../../components/Form/Select'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Switch from 'components/Switch'
 import { UploadDropzone } from 'utils/uploadthing'
 import { TypeDiscount } from 'enums/types.enum'
@@ -11,10 +11,12 @@ import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { IFormInputCreateDiscountProps } from 'types/IFormInputCreateDiscountProps'
 import { schemaCreateDiscount } from 'utils/schemaCreateDiscount'
+import { useDiscount } from 'hooks/useDiscount'
 
 const CreateDiscount: React.FC = () => {
   const [imageUploaded, setImageUploaded] = useState()
   const [discountTypeSelected, setDiscountTypeSelected] = useState()
+  const { setDiscount } = useDiscount()
 
   const {
     register,
@@ -25,7 +27,19 @@ const CreateDiscount: React.FC = () => {
     resolver: yupResolver(schemaCreateDiscount),
   })
 
-  const onSubmit = async (data: any) => {}
+  const onSubmit = async (data: any) => {
+    console.log(data)
+    console.log(control)
+    alert('OI')
+  }
+
+  const onErrors = async (data: any) => {
+    console.log(data)
+  }
+
+  useEffect(() => {
+
+  }, [errors])
 
   return (
     <>
@@ -55,7 +69,7 @@ const CreateDiscount: React.FC = () => {
         <form
           id="form-create-discount"
           className="mt-6 flex w-full flex-col gap-5 divide-y divide-zinc-200 dark:divide-zinc-800"
-          onSubmit={handleSubmit(onSubmit)}
+          onSubmit={handleSubmit(onSubmit), onErrors(onSubmit)}
         >
           <div className="lg:grid-cols-form grid gap-3">
             <label
@@ -83,7 +97,7 @@ const CreateDiscount: React.FC = () => {
           </div>
           <div className="grid gap-3 pt-5">
             <label
-              htmlFor="email"
+              htmlFor="description"
               className="text-sm font-medium text-zinc-700 dark:text-zinc-100"
             >
               Descrição
@@ -107,7 +121,7 @@ const CreateDiscount: React.FC = () => {
           </div>
           <div className="grid gap-3 pt-5">
             <label
-              htmlFor="email"
+              htmlFor="typeDiscount"
               className="text-sm font-medium text-zinc-700 dark:text-zinc-100"
             >
               Tipo de desconto
@@ -148,7 +162,7 @@ const CreateDiscount: React.FC = () => {
             <div className="w-100 flex flex-col items-center  gap-2 pb-6 lg:flex-row lg:justify-between">
               <div className="w-full pt-5">
                 <label
-                  htmlFor="email"
+                  htmlFor="price"
                   className="text-sm text-grey-secondary dark:text-zinc-100 "
                 >
                   Preço "DE"
@@ -191,7 +205,7 @@ const CreateDiscount: React.FC = () => {
             <div className="w-100 flex flex-col items-center gap-2 pb-6 lg:flex-row lg:justify-between">
               <div className="w-full pt-5">
                 <label
-                  htmlFor="email"
+                  htmlFor="price"
                   className="text-sm  text-grey-secondary dark:text-zinc-100"
                 >
                   Preço
@@ -292,7 +306,7 @@ const CreateDiscount: React.FC = () => {
           <div className="w-100 flex flex-col items-center gap-2 pb-6 lg:flex-row lg:justify-between">
             <div className="w-full pt-5">
               <label
-                htmlFor="email"
+                htmlFor="activateDate"
                 className="text-sm  text-grey-secondary dark:text-zinc-100"
               >
                 Data ativação
@@ -390,7 +404,12 @@ const CreateDiscount: React.FC = () => {
                 Editar imagem
               </Button>
             )}
-            <Button type="submit" form="form-create-discount" variant="primary">
+            <Button
+              type="submit"
+              form="form-create-discount"
+              variant="primary"
+              onClick={handleSubmit(onSubmit)}
+            >
               Salvar
             </Button>
           </div>

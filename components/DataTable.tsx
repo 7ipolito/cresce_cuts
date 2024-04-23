@@ -2,7 +2,7 @@
 /* eslint-disable eqeqeq */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react/jsx-key */
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Button } from './Button'
 import Switch from './Switch'
 import * as Select from './Form/Select'
@@ -25,12 +25,13 @@ const DataTable = ({ columns, data }: DataTableProps) => {
   const [statusFilterSelected, setStatusFilterSelected] = useState(null)
   const [typeDiscount, setTypeDiscountSelected] = useState(null)
   const [filteredData, setFilteredData] = useState<Discount[]>(data)
+  const [controlSwitch, setControlSwitch] = useState('')
   const [loading, setIsLoading] = useState(true)
   const { getDiscounts } = useDiscount()
 
   useEffect(() => {
     setTimeout(() => {
-      if (!filteredData[0]?.id) {
+      if (!filteredData[0]?.id && !filteredData && !typeDiscount) {
         setFilteredData(getDiscounts())
       }
       setIsLoading(false)
@@ -41,8 +42,13 @@ const DataTable = ({ columns, data }: DataTableProps) => {
 
       if (statusFilterSelected !== null) {
         filtered = filtered.filter((discount) =>
-          statusFilterSelected == '1' ? discount.activate : !discount.activate,
+          statusFilterSelected == 1 ? discount.activate : !discount.activate,
         )
+        if (statusFilterSelected == 0) {
+          setControlSwitch('activeAll')
+        } else if (statusFilterSelected == 1) {
+          setControlSwitch('desactiveAll')
+        }
       }
 
       if (typeDiscount !== null && typeDiscount !== TypeDiscount.NENHUM) {
@@ -53,14 +59,58 @@ const DataTable = ({ columns, data }: DataTableProps) => {
     }
 
     applyFilter()
-  }, [
-    data,
-    statusFilterSelected,
-    typeDiscount,
-    loading,
-    filteredData,
-    getDiscounts,
-  ])
+  }, [data, statusFilterSelected, typeDiscount, loading])
+
+  const renderData = useCallback(() => {
+    return filteredData?.map((data: Discount) => (
+      <tr className="border-b bg-white dark:border-gray-700 dark:bg-gray-800">
+        <td className="px-14 py-4">
+          <div className="flex flex-row items-center">
+            <div className="bg-red w-20">
+              <img src={data.image} alt="Imagem do produto" />
+            </div>
+            <p className="ml-4">{data.title}</p>
+          </div>
+        </td>
+        <td className="px-6 py-4">
+          {data.type == TypeDiscount.DEPOR
+            ? 'De / Por'
+            : data.type == TypeDiscount.LEVEMAISPAGUEMENOS
+              ? 'Leve + Pague -'
+              : data.type == TypeDiscount.PERCENTUAL
+                ? data.type == TypeDiscount.PERCENTUAL
+                : 'NENHUM'}
+        </td>
+        <td className="px-6 py-4">
+          {data.activationDate != '' ? data.activationDate : 'Sem data'}
+        </td>
+        <td className="px-6 py-4">
+          {' '}
+          {data.desactivationDate != '' ? data.desactivationDate : 'Sem data'}
+        </td>
+        <td className="px-6 py-4">
+          <Switch
+            control={controlSwitch}
+            onClick={(checked) => {
+              checked ? activeDiscount(data.id) : desativeDiscount(data.id)
+            }}
+          />
+        </td>
+        <td className="px-6 py-4">
+          <Dialog.Trigger asChild>
+            <Button
+              variant="ghost"
+              onClick={() => {
+                setDiscountSelected(data)
+              }}
+            >
+              <img src="/eye.png" />
+            </Button>
+          </Dialog.Trigger>
+        </td>
+      </tr>
+    ))
+  }, [activeDiscount, desativeDiscount, filteredData])
 
   return (
     <Dialog.Root>
@@ -135,64 +185,7 @@ const DataTable = ({ columns, data }: DataTableProps) => {
                 ))}
               </tr>
             </thead>
-            <tbody>
-              {!loading &&
-                filteredData[0] &&
-                filteredData?.map((data: Discount) => (
-                  <tr className="border-b bg-white dark:border-gray-700 dark:bg-gray-800">
-                    <td className="px-14 py-4">
-                      <div className="flex flex-row items-center">
-                        <div className="bg-red w-20">
-                          <img src={data.image} alt="Imagem do produto" />
-                        </div>
-                        <p className="ml-4">{data.title}</p>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4">
-                      {data.type == TypeDiscount.DEPOR
-                        ? 'De / Por'
-                        : data.type == TypeDiscount.LEVEMAISPAGUEMENOS
-                          ? 'Leve + Pague -'
-                          : data.type == TypeDiscount.PERCENTUAL
-                            ? data.type == TypeDiscount.PERCENTUAL
-                            : 'NENHUM'}
-                    </td>
-                    <td className="px-6 py-4">
-                      {data.activationDate != ''
-                        ? data.activationDate
-                        : 'Sem data'}
-                    </td>
-                    <td className="px-6 py-4">
-                      {' '}
-                      {data.desactivationDate != ''
-                        ? data.desactivationDate
-                        : 'Sem data'}
-                    </td>
-                    <td className="px-6 py-4">
-                      <Switch
-                        checked={data.activate}
-                        onClick={(checked) => {
-                          checked
-                            ? activeDiscount(data.id)
-                            : desativeDiscount(data.id)
-                        }}
-                      />
-                    </td>
-                    <td className="px-6 py-4">
-                      <Dialog.Trigger asChild>
-                        <Button
-                          variant="ghost"
-                          onClick={() => {
-                            setDiscountSelected(data)
-                          }}
-                        >
-                          <img src="/eye.png" />
-                        </Button>
-                      </Dialog.Trigger>
-                    </td>
-                  </tr>
-                ))}
-            </tbody>
+            <tbody>{!loading && filteredData[0] && renderData()}</tbody>
           </table>
           {!loading && !filteredData[0] && (
             <div className="flex w-full flex-1 items-center justify-center pt-5">

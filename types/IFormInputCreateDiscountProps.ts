@@ -3,10 +3,10 @@ export interface IFormInputCreateDiscountProps {
   description: string
   typeDiscount: string
   price: number
-  percentDiscount: number
-  priceWithDiscount: number
-  take: number
-  pay: number
+  percentDiscount?: number
+  priceWithDiscount?: number
+  take?: number
+  pay?: number
   activateDate: string
   desactiveDate: string
 }

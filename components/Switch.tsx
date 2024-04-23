@@ -1,14 +1,22 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 // import { Container } from './styles';
 
 type SwitchProps = {
-  checked: boolean
   onClick?: (checked: boolean) => any
+  control?: 'activeAll' | 'desactiveAll' | ''
 }
 
-const Switch = ({ checked = false, onClick }: SwitchProps) => {
-  const [checkedState, setCheckedState] = useState(checked)
+const Switch = ({ onClick, control = '' }: SwitchProps) => {
+  const [checkedState, setCheckedState] = useState(false)
+
+  useEffect(() => {
+    if (control == 'activeAll') {
+      setCheckedState(false)
+    } else if (control == 'desactiveAll') {
+      setCheckedState(true)
+    }
+  }, [control])
 
   return (
     <label className="inline-flex cursor-pointer items-center">
