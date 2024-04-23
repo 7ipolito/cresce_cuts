@@ -4,4 +4,5 @@ export enum ErrorFormTypes {
   TEXTOOBRIGATORIO = 'Este campo deve ser um texto',
   SEMDADOS = 'Nada encontrado',
   CARREGANDO = 'Carregando dados..',
+  ERROSMUDARDADOS = 'Erro ao mudar dados',
 }

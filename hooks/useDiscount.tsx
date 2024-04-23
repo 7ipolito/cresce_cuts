@@ -1,28 +1,31 @@
 'use client'
 
 import { api } from 'app/api/axios/axios'
-import React, { createContext, useContext, useEffect } from 'react'
+import React, { createContext, useContext, useEffect, useState } from 'react'
 import { Discount } from 'utils/DiscountProps'
+import { ErrorFormTypes } from 'utils/erros.enum'
 import { TypeDiscount } from 'utils/types.enum'
 
 // Criando o contexto para o objeto Discount
 interface DiscountContextType {
   getDiscounts: () => Discount[]
   setDiscount: (discount: Discount[], isFromApi: boolean) => void
-  updateDiscount: (discount: Discount, newDiscount: Discount) => Discount[]
-  changeDiscountStatus: (discount: Discount) => Discount[]
+  updateDiscount: (newDiscount: Discount) => void
+  activeDiscount: (discountId: number) => void
+  desativeDiscount: (discountId: number) => void
 }
 
 const DiscountContext = createContext<DiscountContextType>({
   getDiscounts: () => [],
   setDiscount: () => {},
   updateDiscount: () => [],
-  changeDiscountStatus: () => [],
+  activeDiscount: () => [],
+  desativeDiscount: () => [],
 })
 
 // Componente provedor do contexto Discount
 export const DiscountProvider: React.FC = ({ children }: any) => {
-  // const [discount, setDiscountState] = useState<Discount[] | null>(null)
+  const [discount, setDiscountState] = useState<Discount[]>([] as Discount[])
 
   async function loadData() {
     try {
@@ -45,6 +48,7 @@ export const DiscountProvider: React.FC = ({ children }: any) => {
         }
         newDiscounts.push(newData)
       })
+      setDiscountState(newDiscounts)
       setDiscount(newDiscounts, true)
     } catch (error) {
       console.log(error)
@@ -52,52 +56,53 @@ export const DiscountProvider: React.FC = ({ children }: any) => {
   }
   // Obtendo dados do localStorage ao carregar
   useEffect(() => {
+    // try {
+    //   if (discount[0].id) {
+    //     alert('oi')
+    //     setDiscountState(getDiscounts())
+    //   }
+    // } catch (error) {
+    //   setDiscountState(getDiscounts())
+    // }
+
     const loaded = localStorage.getItem('loadedFromApi')
     if (!loaded) {
       loadData()
     }
-    // updateDiscount(
-    //   {
-    //     id: 1,
-    //     title: 'Bolsa',
-    //     price: 109.95,
-    //     priceBefore: 109.95,
-    //     priceWithDiscount: 99.0,
-    //     type: TypeDiscount.DEPOR,
-    //     activationDate: '22/04/2026',
-    //     desactivationDate: '22/04/2026',
-    //     activate: true,
-    //     description:
-    //       'Your perfect pack for everyday use and walks in the forest. Stash your laptop (up to 15 inches) in the padded sleeve, your everyday',
-    //     image: 'https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg',
-    //   },
-    //   {
-    //     id: 1,
-    //     title: 'Bolsa Teste',
-    //     price: 109.95,
-    //     priceBefore: 109.95,
-    //     priceWithDiscount: 99.0,
-    //     type: TypeDiscount.DEPOR,
-    //     activationDate: '22/04/2026',
-    //     desactivationDate: '22/04/2026',
-    //     activate: true,
-    //     description:
-    //       'Your perfect pack for everyday use and walks in the forest. Stash your laptop (up to 15 inches) in the padded sleeve, your everyday',
-    //     image: 'https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg',
-    //   },
-    // )
+
+    // const updateData = () => {
+    //   // Atualizacao dos dados a cada 30 segundos
+    //   console.log(discount)
+
+    //   if (discount[0]?.id) {
+    //     console.log('Atualizando dados local storage..')
+    //     localStorage.setItem('discount', JSON.stringify(discount))
+    //   }
+    // }
+
+    // const intervalId = setInterval(updateData, 5000)
+
+    // updateData()
+
+    // return () => clearInterval(intervalId)
   }, [])
 
   function getDiscounts(): Discount[] {
-    const localStorageDiscounts = localStorage.getItem('discount')
-    const newlocalStorageDiscounts: Discount[] = localStorageDiscounts
-      ? JSON.parse(localStorageDiscounts)
-      : ''
-
-    return newlocalStorageDiscounts
+    if (discount[0]?.id) {
+      return discount
+    } else {
+      const localStorageDiscounts = localStorage.getItem('discount')
+      const newlocalStorageDiscounts: Discount[] = localStorageDiscounts
+        ? JSON.parse(localStorageDiscounts)
+        : ''
+      // console.log(newlocalStorageDiscounts)
+      setDiscountState(newlocalStorageDiscounts)
+      console.log(discount)
+      return newlocalStorageDiscounts
+    }
   }
 
-  function updateDiscount(discount: Discount, newDiscount: Discount) {
+  function updateDiscount(newDiscount: Discount) {
     const localStorageDiscounts = localStorage.getItem('discount')
     const newlocalStorageDiscounts: Discount[] = localStorageDiscounts
       ? JSON.parse(localStorageDiscounts)
@@ -108,26 +113,80 @@ export const DiscountProvider: React.FC = ({ children }: any) => {
       }
     })
 
-    return newlocalStorageDiscounts
+    setDiscountState(newlocalStorageDiscounts)
   }
 
-  function changeDiscountStatus(discount: Discount) {
-    const localStorageDiscounts = localStorage.getItem('discount')
-    const newlocalStorageDiscounts: Discount[] = localStorageDiscounts
-      ? JSON.parse(localStorageDiscounts)
-      : ''
-    newlocalStorageDiscounts.forEach((d: Discount, index) => {
-      if (d.id === discount.id) {
-        newlocalStorageDiscounts[index].activate = !d.activate
-      }
-    })
+  function activeDiscount(discountId: number) {
+    if (discount[0]?.id) {
+      const newlocalStorageDiscounts = discount
 
-    return newlocalStorageDiscounts
+      newlocalStorageDiscounts.forEach((d: Discount, index) => {
+        console.log(discountId == d.id)
+
+        if (d.id == discountId) {
+          newlocalStorageDiscounts[index].activate = true
+        }
+      })
+      setDiscount(newlocalStorageDiscounts, false)
+
+      setDiscountState(newlocalStorageDiscounts)
+      console.log(discount)
+    } else {
+      const localStorageDiscounts = localStorage.getItem('discount')
+      const newlocalStorageDiscounts: Discount[] = localStorageDiscounts
+        ? JSON.parse(localStorageDiscounts)
+        : ''
+      newlocalStorageDiscounts.forEach((d: Discount, index) => {
+        if (d.id === discountId) {
+          newlocalStorageDiscounts[index].activate = true
+        }
+      })
+      setDiscount(newlocalStorageDiscounts, false)
+
+      setDiscountState(newlocalStorageDiscounts)
+    }
+  }
+
+  function desativeDiscount(discountId: number) {
+    if (discount[0]?.id) {
+      const newlocalStorageDiscounts = discount
+
+      newlocalStorageDiscounts.forEach((d: Discount, index) => {
+        console.log(discountId == d.id)
+
+        if (d.id == discountId) {
+          newlocalStorageDiscounts[index].activate = false
+        }
+      })
+      console.log(newlocalStorageDiscounts)
+      setDiscount(newlocalStorageDiscounts, false)
+
+      setDiscountState(newlocalStorageDiscounts)
+      console.log(discount)
+
+      // console.log(newlocalStorageDiscounts)
+    } else {
+      const localStorageDiscounts = localStorage.getItem('discount')
+      const newlocalStorageDiscounts: Discount[] = localStorageDiscounts
+        ? JSON.parse(localStorageDiscounts)
+        : ''
+      newlocalStorageDiscounts.forEach((d: Discount, index) => {
+        if (d.id === discountId) {
+          newlocalStorageDiscounts[index].activate = false
+        }
+      })
+      setDiscount(newlocalStorageDiscounts, false)
+      setDiscountState(newlocalStorageDiscounts)
+    }
   }
 
   const setDiscount = (newDiscounts: Discount[] | null, isFromApi: boolean) => {
     if (newDiscounts) {
-      localStorage.setItem('discount', JSON.stringify(newDiscounts))
+      try {
+        localStorage.setItem('discount', JSON.stringify(newDiscounts))
+      } catch (error) {
+        alert(error)
+      }
       if (isFromApi) {
         localStorage.setItem('loadedFromApi', JSON.stringify(true))
       }
@@ -140,7 +199,8 @@ export const DiscountProvider: React.FC = ({ children }: any) => {
         updateDiscount,
         setDiscount,
         getDiscounts,
-        changeDiscountStatus,
+        activeDiscount,
+        desativeDiscount,
       }}
     >
       {children}

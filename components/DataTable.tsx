@@ -14,8 +14,11 @@ import Modal from './Modal'
 import Link from 'next/link'
 import { ErrorFormTypes } from 'utils/erros.enum'
 import { PatternTimeout } from 'utils/timeout.enum'
+import { useDiscount } from 'hooks/useDiscount'
 type DataTableProps = { columns: any[]; data: Discount[] }
 const DataTable = ({ columns, data }: DataTableProps) => {
+  const { activeDiscount, desativeDiscount } = useDiscount()
+
   const [discountSelected, setDiscountSelected] = useState<Discount>(
     {} as Discount,
   )
@@ -23,17 +26,15 @@ const DataTable = ({ columns, data }: DataTableProps) => {
   const [typeDiscount, setTypeDiscountSelected] = useState(null)
   const [filteredData, setFilteredData] = useState<Discount[]>(data)
   const [loading, setIsLoading] = useState(true)
+  const { getDiscounts } = useDiscount()
 
   useEffect(() => {
-    try {
-      setTimeout(() => {
-        setIsLoading(false)
-      }, PatternTimeout.TIMEOUTDATATABLE)
-    } catch (error) {
-      console.log(error)
-    } finally {
+    setTimeout(() => {
+      if (!filteredData[0]?.id) {
+        setFilteredData(getDiscounts())
+      }
       setIsLoading(false)
-    }
+    }, PatternTimeout.TIMEOUTDATATABLE)
 
     const applyFilter = () => {
       let filtered = data
@@ -129,53 +130,62 @@ const DataTable = ({ columns, data }: DataTableProps) => {
               </tr>
             </thead>
             <tbody>
-              {filteredData.map((data: Discount) => (
-                <tr className="border-b bg-white dark:border-gray-700 dark:bg-gray-800">
-                  <td className="px-14 py-4">
-                    <div className="flex flex-row items-center">
-                      <div className="bg-red w-20">
-                        <img src={data.image} alt="Imagem do produto" />
+              {!loading &&
+                filteredData[0] &&
+                filteredData?.map((data: Discount) => (
+                  <tr className="border-b bg-white dark:border-gray-700 dark:bg-gray-800">
+                    <td className="px-14 py-4">
+                      <div className="flex flex-row items-center">
+                        <div className="bg-red w-20">
+                          <img src={data.image} alt="Imagem do produto" />
+                        </div>
+                        <p className="ml-4">{data.title}</p>
                       </div>
-                      <p className="ml-4">{data.title}</p>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4">
-                    {data.type == TypeDiscount.DEPOR
-                      ? 'De / Por'
-                      : data.type == TypeDiscount.LEVEMAISPAGUEMENOS
-                        ? 'Leve + Pague -'
-                        : data.type == TypeDiscount.PERCENTUAL
-                          ? data.type == TypeDiscount.PERCENTUAL
-                          : 'NENHUM'}
-                  </td>
-                  <td className="px-6 py-4">
-                    {data.activationDate != ''
-                      ? data.activationDate
-                      : 'Sem data'}
-                  </td>
-                  <td className="px-6 py-4">
-                    {' '}
-                    {data.desactivationDate != ''
-                      ? data.desactivationDate
-                      : 'Sem data'}
-                  </td>
-                  <td className="px-6 py-4">
-                    <Switch checked={data.activate} />
-                  </td>
-                  <td className="px-6 py-4">
-                    <Dialog.Trigger asChild>
-                      <Button
-                        variant="ghost"
-                        onClick={() => {
-                          setDiscountSelected(data)
+                    </td>
+                    <td className="px-6 py-4">
+                      {data.type == TypeDiscount.DEPOR
+                        ? 'De / Por'
+                        : data.type == TypeDiscount.LEVEMAISPAGUEMENOS
+                          ? 'Leve + Pague -'
+                          : data.type == TypeDiscount.PERCENTUAL
+                            ? data.type == TypeDiscount.PERCENTUAL
+                            : 'NENHUM'}
+                    </td>
+                    <td className="px-6 py-4">
+                      {data.activationDate != ''
+                        ? data.activationDate
+                        : 'Sem data'}
+                    </td>
+                    <td className="px-6 py-4">
+                      {' '}
+                      {data.desactivationDate != ''
+                        ? data.desactivationDate
+                        : 'Sem data'}
+                    </td>
+                    <td className="px-6 py-4">
+                      <Switch
+                        checked={data.activate}
+                        onClick={(checked) => {
+                          checked
+                            ? activeDiscount(data.id)
+                            : desativeDiscount(data.id)
                         }}
-                      >
-                        <img src="/eye.png" />
-                      </Button>
-                    </Dialog.Trigger>
-                  </td>
-                </tr>
-              ))}
+                      />
+                    </td>
+                    <td className="px-6 py-4">
+                      <Dialog.Trigger asChild>
+                        <Button
+                          variant="ghost"
+                          onClick={() => {
+                            setDiscountSelected(data)
+                          }}
+                        >
+                          <img src="/eye.png" />
+                        </Button>
+                      </Dialog.Trigger>
+                    </td>
+                  </tr>
+                ))}
             </tbody>
           </table>
           {!loading && !filteredData[0] && (
