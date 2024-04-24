@@ -1,7 +1,7 @@
 import { TypeDiscount } from '../enums/types.enum'
 
 export interface Discount {
-  id: number
+  id: string
   title: string
   price: number
   take?: number

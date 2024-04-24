@@ -103,9 +103,6 @@ export const DiscountProvider = ({ children }: DiscountProviderProps) => {
   function createDiscount(newDiscount: Discount) {
     const newlocalStorageDiscounts = convertDataToJson()
     const newListDiscounts = [...newlocalStorageDiscounts, newDiscount]
-    newListDiscounts.splice(0, 0, newDiscount)
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    newListDiscounts.sort((a: any, b: any) => a - b)
 
     setDiscountState(newListDiscounts)
     setDiscount(newListDiscounts, false)
@@ -130,6 +127,7 @@ export const DiscountProvider = ({ children }: DiscountProviderProps) => {
           newlocalStorageDiscounts[index].activate = true
         }
       })
+
       setDiscount(newlocalStorageDiscounts, false)
 
       setDiscountState(newlocalStorageDiscounts)

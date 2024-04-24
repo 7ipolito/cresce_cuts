@@ -97,7 +97,7 @@ const DataTable = ({ columns, data }: DataTableProps) => {
             control={controlSwitch}
             role="switchRole"
             onClick={(checked) => {
-              checked ? activeDiscount(data.id) : desativeDiscount(data.id)
+              checked ? desativeDiscount(data.id) : activeDiscount(data.id)
             }}
           />
         </td>

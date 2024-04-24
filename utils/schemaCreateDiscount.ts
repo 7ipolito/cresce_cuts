@@ -3,9 +3,8 @@ import { number, object, string } from 'yup'
 
 export const schemaCreateDiscount = object().shape({
   nameDiscount: string().required(ErrorFormTypes.OBRIGATORIO),
-  description: string()
-    .required(ErrorFormTypes.OBRIGATORIO)
-    .min(100, 'O campo deve ter pelo menos 100 caracteres.'),
+  description: string().required(ErrorFormTypes.OBRIGATORIO),
+  // .min(50, 'O campo deve ter pelo menos 100 caracteres.'),
 
   price: number()
     .typeError(ErrorFormTypes.VALOROBRIGATORIO)
