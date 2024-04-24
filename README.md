@@ -1,52 +1,53 @@
-# Desafio para Desenvolvedor Pleno - Gestor de Campanhas de Desconto
+<div align="center">
+  <h1 align="center">
+    Projeto Gerenciamento De Descontos
+    <br />
+    <br />
+    <a href="">
+      <img src="https://smartranking-hipolito.s3.sa-east-1.amazonaws.com/Imagem.png" alt="Imagem Vale Vantagens">
+    </a>
+  </h1>
+</div>
 
-Este desafio é destinado a desenvolvedores que dominam **React** ou **Flutter**. O objetivo é desenvolver uma aplicação que permite aos usuários criar e gerenciar campanhas de desconto em produtos, utilizando dados da [Fake Store API](https://fakestoreapi.com).
+<p align="center">
+<img loading="lazy" src="http://img.shields.io/static/v1?label=STATUS&message=EM%20DESENVOLVIMENTO&color=GREEN&style=for-the-badge"/>
+</p>
 
-## Objetivo
+# Resumo do projeto
+Projeto que tem como objetivo gerenciar descontos de produtos, de diversas formas.
 
-Desenvolver uma aplicação web (React) ou um aplicativo móvel (Flutter) para gerenciar campanhas de desconto.
+# 🛠️ Abrir e rodar o projeto
 
-## Requisitos Técnicos Mínimos
+Primeiro, execute o projeto com seu gerenciador de pacote:
 
-### React
-- Utilização avançada de **React Hooks** e **Context API** para gerenciamento de estado global.
-- Uso do framework **Next.js**.
-- Estilização com **CSS-in-JS** ou frameworks como **Tailwind CSS**.
-- Desenvolvimento de testes com **Jest** e/ou **React Testing Library** para componentes chave.
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
+....
 
-### Flutter
-- Proficiência com **Flutter** para desenvolvimento de UI, gestão de estado (preferencialmente usando **Mobx**) e navegação entre telas.
-- Estruturação do projeto em módulos reutilizáveis utilizando **Flutter Modular**.
-- Desenvolvimento de testes utilizando o **Flutter Test** para componentes chave.
+## 📁 Acesso ao projeto
+Você pode acessar os arquivos do projeto clicando [aqui](https://github.com/gui-lirasilva/Edige-POO/tree/master/src).
 
-### Comum a Ambas as Tecnologias
-- Integração com a **Fake Store API** para listar produtos e detalhes.
-- Uso de **Git** para controle de versão e **GitHub** para hospedagem do código.
+## ✔️ Técnicas e tecnologias utilizadas
 
-## Funcionalidades
+- ````
+- ````
+- ````
 
-- **Listagem de Produtos:** Exibir produtos disponíveis para desconto, incluindo imagens, preços e descrições.
-- **Criação de Descontos:** Interface para gerenciamento de descontos a produtos específicos, definindo o desconto como: de/por ou leve + page.
-- **Visualização de Campanhas:** Permite visualizar e editar campanhas de desconto criadas, mostrando o preço original e o preço com desconto.
-- **Persistência de Dados:** As campanhas de desconto devem ser salvas localmente para persistir entre as sessões do navegador ou dispositivo.
 
-## Submissão e Avaliação
 
-- Cada candidato deve criar sua branch sendo seu nome completo (exemplo thyago_peres_carvalho).
-- Cada candidato deve criar seu próprio **Pull Request (PR)** para avaliação da implementação.
-- Cada PR deve incluir uma explicação detalhada de como executar o código.
-- Garantir um versionamento mínimo com commits claros e descritivos que refletem o progresso do desenvolvimento.
+# Autores
 
-## Orientações Adicionais
+[<img loading="lazy" src="https://avatars.githubusercontent.com/u/45522944?v=4" width=115><br><sub>Allan Hipólito </sub>](https://github.com/allanwalker23) 
 
-- **Documentação:** Incluir um arquivo `README.md` detalhado no repositório GitHub com instruções para instalação, configuração e execução do projeto.
-- **Código Limpo:** O código deve ser bem organizado, seguindo as melhores práticas de desenvolvimento e padrões de codificação.
-- **UI/UX:** A interface deve ser intuitiva, agradável e fácil de usar, proporcionando uma boa experiência ao usuário.
 
-## Suporte
+<p align="center">
+  Feito por Allan Hipólito
+</p>
 
-Se tiver dúvidas durante o desenvolvimento, por favor, entre em contato através do e-mail [thyago@crescevendas.com](mailto:thyago@crescevendas.com).
-
-## Nota
-
-As telas desenvolvidas pelo design foram enviadas para cada candidato conforme tecnologia escolhida no formulário.
