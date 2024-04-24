@@ -4,7 +4,7 @@ import { TypeDiscount } from 'enums/types.enum'
 import { titles } from 'utils/dataMocked'
 import userEvent from '@testing-library/user-event' // Importe user-event para simular eventos de usuário
 
-describe('DataTable', () => {
+describe('Componente DataTable', () => {
   const data = [
     {
       id: 1,

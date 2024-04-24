@@ -152,7 +152,11 @@ const DataTable = ({ columns, data }: DataTableProps) => {
               role="selectTypeDiscount"
               onChange={(e) => setTypeDiscountSelected(e.target.value)}
               options={[
-                { isSelected: true, text: 'Selecione o status', value: '' },
+                {
+                  isSelected: true,
+                  text: 'Selecione o tipo de desconto',
+                  value: '',
+                },
                 { text: 'De/Por', value: TypeDiscount.DEPOR },
                 { text: 'Percentual', value: TypeDiscount.PERCENTUAL },
                 {

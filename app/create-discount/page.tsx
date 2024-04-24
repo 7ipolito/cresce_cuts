@@ -1,7 +1,7 @@
 'use client'
 import { Button } from 'components/Button'
 import * as Input from '../../components/Form/Input'
-import * as Select from '../../components/Form/Select'
+import * as Select from '../../components/Form/Select/index'
 import React, { useEffect, useState } from 'react'
 import Switch from 'components/Switch'
 import { UploadDropzone } from 'utils/uploadthing'
@@ -37,9 +37,7 @@ const CreateDiscount: React.FC = () => {
     console.log(data)
   }
 
-  useEffect(() => {
-
-  }, [errors])
+  useEffect(() => {}, [errors])
 
   return (
     <>
@@ -69,7 +67,7 @@ const CreateDiscount: React.FC = () => {
         <form
           id="form-create-discount"
           className="mt-6 flex w-full flex-col gap-5 divide-y divide-zinc-200 dark:divide-zinc-800"
-          onSubmit={handleSubmit(onSubmit), onErrors(onSubmit)}
+          onSubmit={(handleSubmit(onSubmit), onErrors(onSubmit))}
         >
           <div className="lg:grid-cols-form grid gap-3">
             <label
