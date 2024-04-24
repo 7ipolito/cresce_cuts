@@ -14,9 +14,11 @@ import { ErrorFormTypes } from 'enums/erros.enum'
 import { PatternTimeout } from 'enums/timeout.enum'
 import { useDiscount } from 'hooks/useDiscount'
 import Select from './Form/Select'
+import { useSidebar } from 'hooks/useSidebar'
 type DataTableProps = { columns: any[]; data: Discount[] }
 const DataTable = ({ columns, data }: DataTableProps) => {
   const { activeDiscount, desativeDiscount } = useDiscount()
+  const { isSidebarOpen, toggleSidebar } = useSidebar()
 
   const [discountSelected, setDiscountSelected] = useState<Discount>(
     {} as Discount,

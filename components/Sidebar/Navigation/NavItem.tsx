@@ -7,7 +7,7 @@ interface NavItemProps {
 export function NavItem({ title }: NavItemProps) {
   return (
     <a
-      href=""
+      href="/"
       className="group flex items-center gap-3 rounded px-3 py-2 text-xs outline-none  focus-visible:ring-2 focus-visible:ring-violet-500 "
     >
       <img src="/icon-money.png" />
