@@ -2,7 +2,7 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import DataTable from 'components/DataTable'
 import { TypeDiscount } from 'enums/types.enum'
 import { titles } from 'utils/dataMocked'
-import userEvent from '@testing-library/user-event' // Importe user-event para simular eventos de usuário
+import { SidebarProvider } from '../hooks/useSidebar'
 
 describe('Componente DataTable', () => {
   const data = [
@@ -53,7 +53,11 @@ describe('Componente DataTable', () => {
   ]
 
   it('Filtra todos os descontos ativados', async () => {
-    render(<DataTable columns={titles} data={data} />)
+    render(
+      <SidebarProvider>
+        <DataTable columns={titles} data={data} />
+      </SidebarProvider>,
+    )
     const selectElement = screen.getByRole('selectStatus')
     fireEvent.click(selectElement)
 
@@ -67,7 +71,11 @@ describe('Componente DataTable', () => {
   })
 
   it('Filtra todos os descontos desativados', async () => {
-    render(<DataTable columns={titles} data={data} />)
+    render(
+      <SidebarProvider>
+        <DataTable columns={titles} data={data} />
+      </SidebarProvider>,
+    )
 
     const selectElement = screen.getByRole('selectStatus')
     fireEvent.click(selectElement)
@@ -81,7 +89,11 @@ describe('Componente DataTable', () => {
     })
   })
   it('Filtra todos os descontos por tipo de desconto de/por', async () => {
-    render(<DataTable columns={titles} data={data} />)
+    render(
+      <SidebarProvider>
+        <DataTable columns={titles} data={data} />
+      </SidebarProvider>,
+    )
 
     const selectElement = screen.getByRole('selectTypeDiscount')
     fireEvent.click(selectElement)
@@ -95,7 +107,11 @@ describe('Componente DataTable', () => {
     })
   })
   it('Filtra todos os descontos por tipo de desconto percentual', async () => {
-    render(<DataTable columns={titles} data={data} />)
+    render(
+      <SidebarProvider>
+        <DataTable columns={titles} data={data} />
+      </SidebarProvider>,
+    )
 
     const selectElement = screen.getByRole('selectTypeDiscount')
     fireEvent.click(selectElement)
@@ -111,7 +127,11 @@ describe('Componente DataTable', () => {
     })
   })
   it('Filtra todos os descontos por tipo de desconto leve + pague -', async () => {
-    render(<DataTable columns={titles} data={data} />)
+    render(
+      <SidebarProvider>
+        <DataTable columns={titles} data={data} />
+      </SidebarProvider>,
+    )
 
     const selectElement = screen.getByRole('selectTypeDiscount')
     fireEvent.click(selectElement)

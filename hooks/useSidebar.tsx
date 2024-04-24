@@ -31,8 +31,6 @@ export const SidebarProvider: React.FC<{ children: ReactNode }> = ({
 // Criando um hook personalizado para usar o contexto
 export const useSidebar = (): SidebarContextType => {
   const context = useContext(SidebarContext)
-  if (!context) {
-    throw new Error('useSidebar deve ser usado dentro de um SidebarProvider')
-  }
+
   return context
 }

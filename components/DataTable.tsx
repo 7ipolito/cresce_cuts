@@ -14,11 +14,9 @@ import { ErrorFormTypes } from 'enums/erros.enum'
 import { PatternTimeout } from 'enums/timeout.enum'
 import { useDiscount } from 'hooks/useDiscount'
 import Select from './Form/Select'
-import { useSidebar } from 'hooks/useSidebar'
 type DataTableProps = { columns: any[]; data: Discount[] }
 const DataTable = ({ columns, data }: DataTableProps) => {
   const { activeDiscount, desativeDiscount } = useDiscount()
-  const { isSidebarOpen, toggleSidebar } = useSidebar()
 
   const [discountSelected, setDiscountSelected] = useState<Discount>(
     {} as Discount,
@@ -137,9 +135,10 @@ const DataTable = ({ columns, data }: DataTableProps) => {
             <Select
               name="statusSelected"
               role="selectStatus"
+              defaultValue=""
               onChange={(e) => setStatusFilterSelected(e.target.value)}
               options={[
-                { isSelected: true, text: 'Selecione o status', value: '' },
+                { text: 'Selecione o status', value: '' },
                 { text: 'Ativado', value: '1' },
                 { text: 'Desativado', value: '0' },
               ]}

@@ -56,10 +56,7 @@ export const DiscountProvider = ({ children }: DiscountProviderProps) => {
             desactivationDate: '',
             image: discount.image,
             price: 0,
-            type:
-              Math.floor(Math.random() * 2) + 1 == 1
-                ? TypeDiscount.PERCENTUAL
-                : TypeDiscount.LEVEMAISPAGUEMENOS,
+            type: TypeDiscount.NENHUM,
           }
           return newData
         }),

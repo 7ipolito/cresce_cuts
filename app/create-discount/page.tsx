@@ -15,6 +15,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { utilsHours } from 'utils/activateDates'
 import { Discount } from 'types/DiscountProps'
 import { ErrorFormTypes } from 'enums/erros.enum'
+import Link from 'next/link'
 
 const CreateDiscount: React.FC = () => {
   const options = [
@@ -30,7 +31,8 @@ const CreateDiscount: React.FC = () => {
     },
     { text: 'Percentual', value: TypeDiscount.PERCENTUAL },
   ]
-  const [imageUploaded, setImageUploaded] = useState(null)
+  const [imageUploadedError, setImageUploadedError] = useState(false)
+  const [imageUploadedUrl, setImageUploadedUrl] = useState('')
   const [discountTypeSelected, setDiscountTypeSelected] = useState()
   const [switchActive, setSwitchActive] = useState(true)
 
@@ -46,7 +48,7 @@ const CreateDiscount: React.FC = () => {
   })
 
   const onSubmit = async (data: any) => {
-    if (imageUploaded) {
+    if (imageUploadedUrl) {
       if (discountTypeSelected == TypeDiscount.DEPOR) {
         const newData: Discount = {
           title: data.nameDiscount,
@@ -54,13 +56,13 @@ const CreateDiscount: React.FC = () => {
           price: data.price,
           priceWithDiscount: data.priceWithDiscount,
           activate: switchActive,
-          image: imageUploaded,
+          image: imageUploadedUrl,
           id: uuidv4(),
           type: data.typeDiscount,
           activationDate: data.activateDate,
           desactivationDate: data.desactiveDate,
         }
-        console.log(newData)
+        alert(newData)
       } else if (discountTypeSelected == TypeDiscount.LEVEMAISPAGUEMENOS) {
         const newData: Discount = {
           title: data.nameDiscount,
@@ -69,31 +71,31 @@ const CreateDiscount: React.FC = () => {
           pay: data.pay,
           take: data.take,
           activate: switchActive,
-          image: imageUploaded,
+          image: imageUploadedUrl,
           id: uuidv4(),
           type: data.typeDiscount,
           activationDate: data.activateDate,
           desactivationDate: data.desactiveDate,
         }
-        console.log(newData)
+        alert(newData)
       } else if (discountTypeSelected == TypeDiscount.PERCENTUAL) {
-        console.log(data)
+        alert(data)
         const newData: Discount = {
           title: data.nameDiscount,
           description: data.description,
           price: data.price,
           percentDiscount: data.percentDiscount,
           activate: switchActive,
-          image: imageUploaded,
+          image: imageUploadedUrl,
           id: uuidv4(),
           type: data.typeDiscount,
           activationDate: data.activateDate,
           desactivationDate: data.desactiveDate,
         }
-        console.log(newData)
+        alert(newData)
       }
     } else {
-      alert(ErrorFormTypes.ERROIMAGEM)
+      setImageUploadedError(true)
     }
   }
 
@@ -120,9 +122,7 @@ const CreateDiscount: React.FC = () => {
               <Switch
                 role="switchRole"
                 checked={switchActive}
-                onClick={(e) => {
-                  setSwitchActive(e)
-                }}
+                onClick={setSwitchActive}
               />
             </div>
           </div>
@@ -144,6 +144,7 @@ const CreateDiscount: React.FC = () => {
               <Input.Root>
                 <input
                   {...register('nameDiscount')}
+                  role="nameDiscountRole"
                   name="nameDiscount"
                   id="nameDiscount"
                   type="text"
@@ -168,6 +169,7 @@ const CreateDiscount: React.FC = () => {
               <Input.Root>
                 <input
                   {...register('description')}
+                  role="descriptionRole"
                   id="description"
                   type="description"
                   name="description"
@@ -190,21 +192,19 @@ const CreateDiscount: React.FC = () => {
             </label>
 
             <select
+              role="selectTypeDiscountRole"
               {...register('typeDiscount', {
                 onChange: (e) => {
                   setDiscountTypeSelected(e.target.value)
                 },
               })}
               name={'typeDiscount'}
+              defaultValue=""
               id={'typeDiscount'}
               className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
             >
               {options.map((option) => (
-                <option
-                  key={option.value}
-                  selected={option.isSelected}
-                  value={option.value}
-                >
+                <option key={option.value} value={option.value}>
                   {option.text}
                 </option>
               ))}
@@ -225,6 +225,7 @@ const CreateDiscount: React.FC = () => {
                 <Input.Root className="mb-2">
                   <input
                     {...register('price')}
+                    role="priceDPRole"
                     name="price"
                     id="price"
                     type="text"
@@ -241,6 +242,7 @@ const CreateDiscount: React.FC = () => {
                 <Input.Root className="mb-2">
                   <input
                     {...register('priceWithDiscount')}
+                    role="priceWithDiscountRole"
                     name="priceWithDiscount"
                     id="priceWithDiscount"
                     type="text"
@@ -268,6 +270,7 @@ const CreateDiscount: React.FC = () => {
                 <Input.Root>
                   <input
                     {...register('price')}
+                    role="priceLPMRole"
                     name="price"
                     id="price"
                     type="text"
@@ -284,6 +287,7 @@ const CreateDiscount: React.FC = () => {
                 <Input.Root>
                   <input
                     {...register('take')}
+                    role="takeRole"
                     name="take"
                     id="take"
                     type="text"
@@ -301,6 +305,7 @@ const CreateDiscount: React.FC = () => {
                   <input
                     {...register('pay')}
                     name="pay"
+                    role="payRole"
                     id="pay"
                     type="text"
                     defaultValue=""
@@ -326,6 +331,7 @@ const CreateDiscount: React.FC = () => {
                   <input
                     {...register('price')}
                     name="price"
+                    role="pricePRole"
                     id="price"
                     type="text"
                     defaultValue=""
@@ -343,6 +349,7 @@ const CreateDiscount: React.FC = () => {
                 <Input.Root>
                   <input
                     {...register('percentDiscount')}
+                    role="percentDiscountRole"
                     name="percentDiscount"
                     id="percentDiscount"
                     type="text"
@@ -368,12 +375,14 @@ const CreateDiscount: React.FC = () => {
               </label>
 
               <select
+                role="selectActivateDateRole"
                 {...register('activateDate')}
                 name={'activateDate'}
                 id={'activateDate'}
+                defaultValue=""
                 className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
               >
-                <option key="1" selected={true} value="">
+                <option key="1" value="">
                   Selecione a data de ativação
                 </option>
                 {utilsHours.map((option) => (
@@ -391,13 +400,14 @@ const CreateDiscount: React.FC = () => {
               <p className="text-sm text-grey-secondary">Data de inativação</p>
 
               <select
-                role="desactiveDateSelect"
+                role="selectDesactiveDateSelectRole"
                 {...register('desactiveDate')}
+                defaultValue=""
                 name={'desactiveDate'}
                 id={'desactiveDate'}
                 className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
               >
-                <option key="1" selected={true} value="">
+                <option key="1" value="">
                   Selecione a data de inativaçao
                 </option>
                 {utilsHours.map((option) => (
@@ -412,16 +422,17 @@ const CreateDiscount: React.FC = () => {
             </div>
           </div>
           <div>
-            {imageUploaded ? (
+            {imageUploadedUrl ? (
               <div className="tems-center flex justify-center">
-                <img src={imageUploaded} width={500} />
+                <img src={imageUploadedUrl} width={500} />
               </div>
             ) : (
               <UploadDropzone
                 endpoint="imageUploader"
                 onClientUploadComplete={(res: any) => {
                   // Do something with the response
-                  setImageUploaded(res[0].url)
+                  setImageUploadedError(false)
+                  setImageUploadedUrl(res[0].url)
 
                   console.log('Files: ', res)
                 }}
@@ -430,22 +441,42 @@ const CreateDiscount: React.FC = () => {
                 }}
               />
             )}
+            {imageUploadedError && (
+              <span role="errorImageRole" className="text-red-500">
+                {ErrorFormTypes.ERROIMAGEM}
+              </span>
+            )}
           </div>
 
           <div className="flex items-center justify-end gap-2 pt-5">
-            <Button type="button" variant="outline">
-              Cancelar
-            </Button>
-            {imageUploaded && (
-              <Button onClick={() => setImageUploaded('')}>
+            <Link href="/">
+              <Button type="button" variant="outline">
+                Cancelar
+              </Button>
+            </Link>
+            {imageUploadedUrl && (
+              <Button
+                onClick={() => {
+                  setImageUploadedUrl('')
+                  if (!imageUploadedUrl) {
+                    setImageUploadedError(true)
+                  }
+                }}
+              >
                 Editar imagem
               </Button>
             )}
             <Button
               type="submit"
+              role="buttonSave"
               form="form-create-discount"
               variant="primary"
-              onClick={handleSubmit(onSubmit)}
+              onClick={() => {
+                handleSubmit(onSubmit)
+                if (!imageUploadedUrl) {
+                  setImageUploadedError(true)
+                }
+              }}
             >
               Salvar
             </Button>
