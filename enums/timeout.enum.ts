@@ -1,3 +1,3 @@
 export enum PatternTimeout {
-  TIMEOUTDATATABLE = 0,
+  TIMEOUTDATATABLE = 3000,
 }

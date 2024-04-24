@@ -10,7 +10,7 @@
 </div>
 
 <p align="center">
-<img loading="lazy" src="http://img.shields.io/static/v1?label=STATUS&message=EM%20DESENVOLVIMENTO&color=GREEN&style=for-the-badge"/>
+<img loading="lazy" src="http://img.shields.io/static/v1?label=STATUS&message=CONCLUIDO&color=GREEN&style=for-the-badge"/>
 </p>
 
 # Resumo do projeto
@@ -18,8 +18,13 @@ Projeto que tem como objetivo gerenciar descontos de produtos, de diversas forma
 
 # 🛠️ Abrir e rodar o projeto
 
-Primeiro, execute o projeto com seu gerenciador de pacote:
+Primeiro crie uma conta no [uploadThing](https://uploadthing.com/), guarde as configurações e crie um arquivo .env.local colocando as mesmas
 
+```bash
+UPLOADTHING_SECRET=sua secretKey
+UPLOADTHING_APP_ID=seu appId
+```
+Apos isso execute o projeto com seu gerenciador de pacote:
 ```bash
 npm run dev
 # or
@@ -29,16 +34,23 @@ pnpm dev
 # or
 bun dev
 ```
-....
+
+Caso utilize o yarn, na hora de executar os testes exclua o arquivo yarn.lock execute 
+```bash
+yarn install
+```
+
 
 ## 📁 Acesso ao projeto
-Você pode acessar os arquivos do projeto clicando [aqui](https://github.com/gui-lirasilva/Edige-POO/tree/master/src).
+Você pode acessar os arquivos do projeto clicando [aqui](https://github.com/allanwalker23/cresce_cuts/tree/allan_hipolito).
 
 ## ✔️ Técnicas e tecnologias utilizadas
 
-- ````
-- ````
-- ````
+- Uploadthing
+- Next.js
+- Jest & React testing library
+- TailwindCss
+- React Hook Form & Yup
 
 
 
