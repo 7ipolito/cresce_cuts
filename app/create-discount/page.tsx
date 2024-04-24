@@ -11,9 +11,10 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { IFormInputCreateDiscountProps } from 'types/IFormInputCreateDiscountProps'
 import { schemaCreateDiscount } from 'utils/schemaCreateDiscount'
 import { useDiscount } from 'hooks/useDiscount'
-import Select from 'components/Form/Select'
+import { v4 as uuidv4 } from 'uuid'
 import { utilsHours } from 'utils/activateDates'
 import { Discount } from 'types/DiscountProps'
+import { ErrorFormTypes } from 'enums/erros.enum'
 
 const CreateDiscount: React.FC = () => {
   const options = [
@@ -29,7 +30,7 @@ const CreateDiscount: React.FC = () => {
     },
     { text: 'Percentual', value: TypeDiscount.PERCENTUAL },
   ]
-  const [imageUploaded, setImageUploaded] = useState()
+  const [imageUploaded, setImageUploaded] = useState(null)
   const [discountTypeSelected, setDiscountTypeSelected] = useState()
   const [switchActive, setSwitchActive] = useState(true)
 
@@ -45,39 +46,56 @@ const CreateDiscount: React.FC = () => {
   })
 
   const onSubmit = async (data: any) => {
-    if (discountTypeSelected == TypeDiscount.DEPOR) {
-      const newData: Discount = {
-        title: data.nameDiscount,
-        description: data.description,
-        price: data.price,
-        priceWithDiscount: data.priceWithDiscount,
-        activate: switchActive,
+    if (imageUploaded) {
+      if (discountTypeSelected == TypeDiscount.DEPOR) {
+        const newData: Discount = {
+          title: data.nameDiscount,
+          description: data.description,
+          price: data.price,
+          priceWithDiscount: data.priceWithDiscount,
+          activate: switchActive,
+          image: imageUploaded,
+          id: uuidv4(),
+          type: data.typeDiscount,
+          activationDate: data.activateDate,
+          desactivationDate: data.desactiveDate,
+        }
+        console.log(newData)
+      } else if (discountTypeSelected == TypeDiscount.LEVEMAISPAGUEMENOS) {
+        const newData: Discount = {
+          title: data.nameDiscount,
+          description: data.description,
+          price: data.price,
+          pay: data.pay,
+          take: data.take,
+          activate: switchActive,
+          image: imageUploaded,
+          id: uuidv4(),
+          type: data.typeDiscount,
+          activationDate: data.activateDate,
+          desactivationDate: data.desactiveDate,
+        }
+        console.log(newData)
+      } else if (discountTypeSelected == TypeDiscount.PERCENTUAL) {
+        console.log(data)
+        const newData: Discount = {
+          title: data.nameDiscount,
+          description: data.description,
+          price: data.price,
+          percentDiscount: data.percentDiscount,
+          activate: switchActive,
+          image: imageUploaded,
+          id: uuidv4(),
+          type: data.typeDiscount,
+          activationDate: data.activateDate,
+          desactivationDate: data.desactiveDate,
+        }
+        console.log(newData)
       }
-      console.log(newData)
-    } else if (discountTypeSelected == TypeDiscount.LEVEMAISPAGUEMENOS) {
-      const newData: Discount = {
-        title: data.nameDiscount,
-        description: data.description,
-        price: data.price,
-        pay: data.pay,
-        take: data.take,
-        activate: switchActive,
-      }
-      console.log(newData)
-    } else if (discountTypeSelected == TypeDiscount.PERCENTUAL) {
-      console.log(data)
-      const newData: Discount = {
-        title: data.nameDiscount,
-        description: data.description,
-        price: data.price,
-        percentDiscount: data.percentDiscount,
-        activate: switchActive,
-      }
-      console.log(newData)
+    } else {
+      alert(ErrorFormTypes.ERROIMAGEM)
     }
   }
-
-  useEffect(() => {}, [errors])
 
   return (
     <>
@@ -408,8 +426,7 @@ const CreateDiscount: React.FC = () => {
                   console.log('Files: ', res)
                 }}
                 onUploadError={(error: Error) => {
-                  // Do something with the error.
-                  // alert(`ERROR! ${error.message}`)
+                  alert(`ERROR! ${error.message}`)
                 }}
               />
             )}

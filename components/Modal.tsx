@@ -24,19 +24,21 @@ const Modal = ({ discountSelected }: ModalProps) => {
     resolver: yupResolver(schemaEditDiscount),
   })
 
-  const onSubmit = async (data: any) => {}
+  const onSubmit = async (data: any) => {
+    alert('OI')
+  }
 
   return (
     <Dialog.Portal>
       <Dialog.Overlay className="bg-blackA6 data-[state=open]:animate-overlayShow fixed inset-0" />
-      <Dialog.Content className="data-[state=open]:animate-contentShow fixed left-[50%] top-[50%] max-h-[85vh] w-[90vw] max-w-[659px] translate-x-[-50%] translate-y-[-50%] rounded-[6px] bg-white p-[25px] shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none">
+      <Dialog.Content className="data-[state=open]:animate-contentShow fixed left-[50%] top-[50%] max-h-[90vh] w-[90vw] max-w-[659px] translate-x-[-50%] translate-y-[-50%] rounded-[6px] bg-white p-[25px] shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none">
         <form
           id="form-edit-discount"
-          className="mt-6 flex w-full flex-col gap-5 divide-y divide-zinc-200 dark:divide-zinc-800"
+          className=" flex w-full flex-col gap-5 divide-y divide-zinc-200 dark:divide-zinc-800"
           onSubmit={handleSubmit(onSubmit)}
         >
           <div className="flex justify-center">
-            <Dialog.Title className=" pb-5 text-[16px] font-medium">
+            <Dialog.Title className="text-[16px] font-medium">
               Detalhes do produto
             </Dialog.Title>
           </div>
@@ -166,7 +168,7 @@ const Modal = ({ discountSelected }: ModalProps) => {
                   <p className="text-2xl font-medium text-grey-secondary line-through">
                     {!discountEditable ? (
                       <p className="text-2xl font-medium text-grey-secondary">
-                        {discountSelected.price}
+                        R${discountSelected.price}
                       </p>
                     ) : (
                       <div>
@@ -194,7 +196,7 @@ const Modal = ({ discountSelected }: ModalProps) => {
                   )}
                   {!discountEditable ? (
                     <p className="text-2xl font-medium text-grey-secondary">
-                      {discountSelected.priceWithDiscount}
+                      R${discountSelected.priceWithDiscount}
                     </p>
                   ) : (
                     <div>
@@ -217,7 +219,7 @@ const Modal = ({ discountSelected }: ModalProps) => {
                 </div>
               ) : !discountEditable ? (
                 <p className="text-2xl font-medium text-grey-secondary">
-                  {discountSelected.price}
+                  R$ {discountSelected.price}
                 </p>
               ) : (
                 <div>
@@ -238,15 +240,19 @@ const Modal = ({ discountSelected }: ModalProps) => {
             </div>
           </Dialog.Description>
 
-          <div className="mt-[25px] flex justify-end">
+          <div className="flex justify-end pb-5">
             <div className="flex w-full justify-between gap-2">
               <Button
                 className="w-full"
                 variant="outline"
-                onClick={() => setDiscountEditable(!discountEditable)}
+                onClick={(event) => {
+                  event.preventDefault()
+                  setDiscountEditable(!discountEditable)
+                }}
               >
                 {discountEditable ? 'Cancelar edição' : 'Editar'}
               </Button>
+
               {!discountEditable ? (
                 <Dialog.Close asChild>
                   <Button className="w-full">Fechar</Button>
@@ -255,6 +261,7 @@ const Modal = ({ discountSelected }: ModalProps) => {
                 <Button
                   className="w-full"
                   type="submit"
+                  onClick={handleSubmit(onSubmit)}
                   form="form-edit-discount"
                 >
                   Salvar

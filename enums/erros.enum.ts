@@ -5,4 +5,5 @@ export enum ErrorFormTypes {
   SEMDADOS = 'Nada encontrado',
   CARREGANDO = 'Carregando dados..',
   ERROSMUDARDADOS = 'Erro ao mudar dados',
+  ERROIMAGEM = 'Voce precisa fazer o upload de alguma imagem',
 }

@@ -1,7 +1,6 @@
 {
   "private": true,
   "scripts": {
-    
     "dev": " node ./scripts/setTimeoutNormal.js && next dev",
     "build": "node ./scripts/setTimeoutNormal.js && next build",
     "start": "node ./scripts/setTimeoutNormal.js && next start",
@@ -24,6 +23,7 @@
     "react-hook-form": "^7.51.3",
     "tailwind-variants": "^0.2.1",
     "uploadthing": "^6.9.0",
+    "uuid": "^9.0.1",
     "yup": "^1.4.0"
   },
   "devDependencies": {

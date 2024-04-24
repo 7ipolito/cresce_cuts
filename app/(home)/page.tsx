@@ -3,17 +3,17 @@
 'use client'
 import React, { useEffect, useState } from 'react'
 import DataTable from 'components/DataTable'
-import { titles } from 'utils/dataMocked'
+import { discounts, titles } from 'utils/dataMocked'
 import { useDiscount } from 'hooks/useDiscount'
 import { Discount } from 'types/DiscountProps'
 
 export default function App() {
-  const [discounts, setDiscounts] = useState<Discount[]>([])
+  // const [discounts, setDiscounts] = useState<Discount[]>([])
   const { getDiscounts } = useDiscount()
 
   useEffect(() => {
     console.log(getDiscounts())
-    setDiscounts(getDiscounts())
+    // setDiscounts(getDiscounts())
   }, [getDiscounts])
   return (
     <div className="app">

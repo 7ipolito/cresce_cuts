@@ -11,18 +11,12 @@ export const schemaEditDiscount = object().shape({
 
   priceWithDiscount: number()
     .typeError(ErrorFormTypes.VALOROBRIGATORIO)
-    .required(ErrorFormTypes.OBRIGATORIO),
+    .notRequired(),
 
-  take: number()
-    .typeError(ErrorFormTypes.VALOROBRIGATORIO)
-    .required(ErrorFormTypes.OBRIGATORIO),
-  pay: number()
-    .typeError(ErrorFormTypes.VALOROBRIGATORIO)
-    .required(ErrorFormTypes.OBRIGATORIO),
-  activateDate: string().required(ErrorFormTypes.OBRIGATORIO),
-  desactiveDate: string().required(ErrorFormTypes.OBRIGATORIO),
-  typeDiscount: string().required(ErrorFormTypes.OBRIGATORIO),
+  take: number().typeError(ErrorFormTypes.VALOROBRIGATORIO).notRequired(),
+
+  pay: number().typeError(ErrorFormTypes.VALOROBRIGATORIO).notRequired(),
   percentDiscount: number()
     .typeError(ErrorFormTypes.VALOROBRIGATORIO)
-    .required(ErrorFormTypes.OBRIGATORIO),
+    .notRequired(),
 })
