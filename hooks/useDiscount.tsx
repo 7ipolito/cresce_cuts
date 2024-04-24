@@ -9,6 +9,8 @@ import React, {
   useEffect,
   useState,
 } from 'react'
+import { v4 as uuidv4 } from 'uuid'
+
 import { Discount } from 'types/DiscountProps'
 import { TypeDiscount } from 'enums/types.enum'
 
@@ -16,14 +18,16 @@ interface DiscountContextType {
   getDiscounts: () => Discount[]
   setDiscount: (discount: Discount[], isFromApi: boolean) => void
   updateDiscount: (newDiscount: Discount) => void
-  activeDiscount: (discountId: number) => void
-  desativeDiscount: (discountId: number) => void
+  createDiscount: (newDiscount: Discount) => void
+  activeDiscount: (discountId: string) => void
+  desativeDiscount: (discountId: string) => void
 }
 
 const DiscountContext = createContext<DiscountContextType>({
   getDiscounts: () => [],
   setDiscount: () => {},
   updateDiscount: () => [],
+  createDiscount: () => [],
   activeDiscount: () => [],
   desativeDiscount: () => [],
 })
@@ -48,7 +52,7 @@ export const DiscountProvider = ({ children }: DiscountProviderProps) => {
       const newDiscounts = await Promise.all(
         dataResponse.map(async (discount: any) => {
           const newData: Discount = {
-            id: discount.id,
+            id: uuidv4(),
             title: discount.title,
             description: discount.description,
             activate: false,
@@ -96,7 +100,18 @@ export const DiscountProvider = ({ children }: DiscountProviderProps) => {
     setDiscountState(newlocalStorageDiscounts)
   }
 
-  function activeDiscount(discountId: number) {
+  function createDiscount(newDiscount: Discount) {
+    const newlocalStorageDiscounts = convertDataToJson()
+    const newListDiscounts = [...newlocalStorageDiscounts, newDiscount]
+    newListDiscounts.splice(0, 0, newDiscount)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    newListDiscounts.sort((a: any, b: any) => a - b)
+
+    setDiscountState(newListDiscounts)
+    setDiscount(newListDiscounts, false)
+  }
+
+  function activeDiscount(discountId: string) {
     if (discount[0]?.id) {
       const newlocalStorageDiscounts = discount
 
@@ -121,7 +136,7 @@ export const DiscountProvider = ({ children }: DiscountProviderProps) => {
     }
   }
 
-  function desativeDiscount(discountId: number) {
+  function desativeDiscount(discountId: string) {
     if (discount[0]?.id) {
       const newlocalStorageDiscounts = discount
 
@@ -167,6 +182,7 @@ export const DiscountProvider = ({ children }: DiscountProviderProps) => {
         getDiscounts,
         activeDiscount,
         desativeDiscount,
+        createDiscount,
       }}
     >
       {children}

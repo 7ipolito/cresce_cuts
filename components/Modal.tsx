@@ -15,6 +15,8 @@ import { useSidebar } from 'hooks/useSidebar'
 type ModalProps = { discountSelected: Discount }
 const Modal = ({ discountSelected }: ModalProps) => {
   const [discountEditable, setDiscountEditable] = useState(false)
+  const { isSidebarOpen } = useSidebar()
+
   const { toggleSidebar } = useSidebar()
   const {
     register,
@@ -58,7 +60,10 @@ const Modal = ({ discountSelected }: ModalProps) => {
               }
             >
               <div className=" flex w-full items-center justify-center px-4">
-                <img src={discountSelected.image} width={70} />
+                <img
+                  src={discountSelected.image}
+                  width={isSidebarOpen ? 70 : 200}
+                />
               </div>
               <div className="pt-4">
                 {discountSelected.type == TypeDiscount.PERCENTUAL &&

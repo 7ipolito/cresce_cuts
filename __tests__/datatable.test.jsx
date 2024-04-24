@@ -3,11 +3,12 @@ import DataTable from 'components/DataTable'
 import { TypeDiscount } from 'enums/types.enum'
 import { titles } from 'utils/dataMocked'
 import { SidebarProvider } from '../hooks/useSidebar'
+import { v4 as uuidv4 } from 'uuid'
 
 describe('Componente DataTable', () => {
   const data = [
     {
-      id: 1,
+      id: uuidv4(),
       title: 'Desconto 1',
       description: '',
       price: 0,
@@ -18,7 +19,7 @@ describe('Componente DataTable', () => {
       image: 'image1.jpg',
     },
     {
-      id: 2,
+      id: uuidv4(),
       title: 'Desconto 2',
       description: '',
       price: 0,
@@ -29,7 +30,7 @@ describe('Componente DataTable', () => {
       image: 'image2.jpg',
     },
     {
-      id: 1,
+      id: uuidv4(),
       title: 'Desconto 3',
       description: '',
       price: 0,
@@ -40,7 +41,7 @@ describe('Componente DataTable', () => {
       image: 'image2.jpg',
     },
     {
-      id: 4,
+      id: uuidv4(),
       title: 'Desconto 4',
       description: '',
       price: 0,

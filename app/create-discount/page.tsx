@@ -16,8 +16,11 @@ import { utilsHours } from 'utils/activateDates'
 import { Discount } from 'types/DiscountProps'
 import { ErrorFormTypes } from 'enums/erros.enum'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
-const CreateDiscount: React.FC = () => {
+const CreateDiscount = () => {
+  const router = useRouter()
+
   const options = [
     {
       isSelected: true,
@@ -36,7 +39,7 @@ const CreateDiscount: React.FC = () => {
   const [discountTypeSelected, setDiscountTypeSelected] = useState()
   const [switchActive, setSwitchActive] = useState(true)
 
-  const { setDiscount } = useDiscount()
+  const { createDiscount } = useDiscount()
 
   const {
     register,
@@ -62,7 +65,8 @@ const CreateDiscount: React.FC = () => {
           activationDate: data.activateDate,
           desactivationDate: data.desactiveDate,
         }
-        alert(newData)
+        createDiscount(newData)
+        router.push('/')
       } else if (discountTypeSelected == TypeDiscount.LEVEMAISPAGUEMENOS) {
         const newData: Discount = {
           title: data.nameDiscount,
@@ -77,9 +81,9 @@ const CreateDiscount: React.FC = () => {
           activationDate: data.activateDate,
           desactivationDate: data.desactiveDate,
         }
-        alert(newData)
+        createDiscount(newData)
+        router.push('/')
       } else if (discountTypeSelected == TypeDiscount.PERCENTUAL) {
-        alert(data)
         const newData: Discount = {
           title: data.nameDiscount,
           description: data.description,
@@ -92,7 +96,8 @@ const CreateDiscount: React.FC = () => {
           activationDate: data.activateDate,
           desactivationDate: data.desactiveDate,
         }
-        alert(newData)
+        createDiscount(newData)
+        router.push('/')
       }
     } else {
       setImageUploadedError(true)
