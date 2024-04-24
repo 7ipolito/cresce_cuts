@@ -1,40 +1,80 @@
 'use client'
 import { Button } from 'components/Button'
 import * as Input from '../../components/Form/Input'
-import * as Select from '../../components/Form/Select/index'
 import React, { useEffect, useState } from 'react'
 import Switch from 'components/Switch'
 import { UploadDropzone } from 'utils/uploadthing'
 import { TypeDiscount } from 'enums/types.enum'
 
-import { Controller, useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { IFormInputCreateDiscountProps } from 'types/IFormInputCreateDiscountProps'
 import { schemaCreateDiscount } from 'utils/schemaCreateDiscount'
 import { useDiscount } from 'hooks/useDiscount'
+import Select from 'components/Form/Select'
+import { utilsHours } from 'utils/activateDates'
+import { Discount } from 'types/DiscountProps'
 
 const CreateDiscount: React.FC = () => {
+  const options = [
+    {
+      isSelected: true,
+      text: 'Selecione o tipo de desconto',
+      value: '',
+    },
+    { text: 'De / Por', value: TypeDiscount.DEPOR },
+    {
+      text: 'Leve + Pague -',
+      value: TypeDiscount.LEVEMAISPAGUEMENOS,
+    },
+    { text: 'Percentual', value: TypeDiscount.PERCENTUAL },
+  ]
   const [imageUploaded, setImageUploaded] = useState()
   const [discountTypeSelected, setDiscountTypeSelected] = useState()
+  const [switchActive, setSwitchActive] = useState(true)
+
   const { setDiscount } = useDiscount()
 
   const {
     register,
     handleSubmit,
-    control,
+
     formState: { errors },
   } = useForm<IFormInputCreateDiscountProps>({
     resolver: yupResolver(schemaCreateDiscount),
   })
 
   const onSubmit = async (data: any) => {
-    console.log(data)
-    console.log(control)
-    alert('OI')
-  }
-
-  const onErrors = async (data: any) => {
-    console.log(data)
+    if (discountTypeSelected == TypeDiscount.DEPOR) {
+      const newData: Discount = {
+        title: data.nameDiscount,
+        description: data.description,
+        price: data.price,
+        priceWithDiscount: data.priceWithDiscount,
+        activate: switchActive,
+      }
+      console.log(newData)
+    } else if (discountTypeSelected == TypeDiscount.LEVEMAISPAGUEMENOS) {
+      const newData: Discount = {
+        title: data.nameDiscount,
+        description: data.description,
+        price: data.price,
+        pay: data.pay,
+        take: data.take,
+        activate: switchActive,
+      }
+      console.log(newData)
+    } else if (discountTypeSelected == TypeDiscount.PERCENTUAL) {
+      console.log(data)
+      const newData: Discount = {
+        title: data.nameDiscount,
+        description: data.description,
+        price: data.price,
+        percentDiscount: data.percentDiscount,
+        activate: switchActive,
+      }
+      console.log(newData)
+    }
   }
 
   useEffect(() => {}, [errors])
@@ -59,7 +99,13 @@ const CreateDiscount: React.FC = () => {
 
             <div className="flex items-center gap-2">
               <p className="text-sm text-grey-primary">Ativo</p>
-              <Switch checked={true} />
+              <Switch
+                role="switchRole"
+                checked={switchActive}
+                onClick={(e) => {
+                  setSwitchActive(e)
+                }}
+              />
             </div>
           </div>
         </div>
@@ -67,7 +113,7 @@ const CreateDiscount: React.FC = () => {
         <form
           id="form-create-discount"
           className="mt-6 flex w-full flex-col gap-5 divide-y divide-zinc-200 dark:divide-zinc-800"
-          onSubmit={(handleSubmit(onSubmit), onErrors(onSubmit))}
+          onSubmit={handleSubmit(onSubmit)}
         >
           <div className="lg:grid-cols-form grid gap-3">
             <label
@@ -124,37 +170,30 @@ const CreateDiscount: React.FC = () => {
             >
               Tipo de desconto
             </label>
-            <Controller
-              name="typeDiscount"
-              control={control}
-              render={({ field }) => (
-                <Select.Root
-                  name="typeDiscount"
-                  onValueChange={(e) => {
-                    setDiscountTypeSelected(e)
-                    field.onChange
-                  }}
+
+            <select
+              {...register('typeDiscount', {
+                onChange: (e) => {
+                  setDiscountTypeSelected(e.target.value)
+                },
+              })}
+              name={'typeDiscount'}
+              id={'typeDiscount'}
+              className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+            >
+              {options.map((option) => (
+                <option
+                  key={option.value}
+                  selected={option.isSelected}
+                  value={option.value}
                 >
-                  <Select.Trigger>
-                    <Select.Value placeholder="Selecione o tipo de desconto" />
-                  </Select.Trigger>
-
-                  <Select.Content>
-                    <Select.Item value={TypeDiscount.DEPOR}>
-                      <Select.ItemText>De / Por</Select.ItemText>
-                    </Select.Item>
-
-                    <Select.Item value={TypeDiscount.LEVEMAISPAGUEMENOS}>
-                      <Select.ItemText>Leve + Pague -</Select.ItemText>
-                    </Select.Item>
-                    <Select.Item value={TypeDiscount.PERCENTUAL}>
-                      <Select.ItemText>Percentual</Select.ItemText>
-                    </Select.Item>
-                  </Select.Content>
-                </Select.Root>
-              )}
-            />
-            <span className=" text-red-500">{errors.price?.message}</span>
+                  {option.text}
+                </option>
+              ))}
+            </select>
+            <span className=" text-red-500">
+              {errors.typeDiscount?.message}
+            </span>
           </div>
           {discountTypeSelected == TypeDiscount.DEPOR && (
             <div className="w-100 flex flex-col items-center  gap-2 pb-6 lg:flex-row lg:justify-between">
@@ -309,30 +348,22 @@ const CreateDiscount: React.FC = () => {
               >
                 Data ativação
               </label>
-              <Controller
-                name="activateDate"
-                control={control}
-                render={({ field }) => (
-                  <Select.Root
-                    name="activateDate"
-                    onValueChange={field.onChange}
-                  >
-                    <Select.Trigger>
-                      <Select.Value placeholder="Selecione a data de ativação" />
-                    </Select.Trigger>
 
-                    <Select.Content>
-                      <Select.Item value="utc-3">
-                        <Select.ItemText>Ativado</Select.ItemText>
-                      </Select.Item>
-
-                      <Select.Item value="utc-1">
-                        <Select.ItemText>Desativado</Select.ItemText>
-                      </Select.Item>
-                    </Select.Content>
-                  </Select.Root>
-                )}
-              />
+              <select
+                {...register('activateDate')}
+                name={'activateDate'}
+                id={'activateDate'}
+                className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+              >
+                <option key="1" selected={true} value="">
+                  Selecione a data de ativação
+                </option>
+                {utilsHours.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.text}
+                  </option>
+                ))}
+              </select>
               <span className="text-red-500">
                 {errors.activateDate?.message}
               </span>
@@ -340,32 +371,23 @@ const CreateDiscount: React.FC = () => {
 
             <div className="w-full pt-5">
               <p className="text-sm text-grey-secondary">Data de inativação</p>
-              <Controller
-                name="desactiveDate"
-                control={control}
-                render={({ field }) => (
-                  <Select.Root
-                    name="desactiveDate"
-                    onValueChange={field.onChange}
-                  >
-                    <Select.Trigger>
-                      <Select.Value placeholder="Selecione a data de inativação" />
-                    </Select.Trigger>
 
-                    <Select.Content>
-                      <Select.Item value="1">
-                        <Select.ItemText>De/Por</Select.ItemText>
-                      </Select.Item>
-                      <Select.Item value="2">
-                        <Select.ItemText>Percentual</Select.ItemText>
-                      </Select.Item>
-                      <Select.Item value="3">
-                        <Select.ItemText>Leve + Pague -</Select.ItemText>
-                      </Select.Item>
-                    </Select.Content>
-                  </Select.Root>
-                )}
-              />
+              <select
+                role="desactiveDateSelect"
+                {...register('desactiveDate')}
+                name={'desactiveDate'}
+                id={'desactiveDate'}
+                className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+              >
+                <option key="1" selected={true} value="">
+                  Selecione a data de inativaçao
+                </option>
+                {utilsHours.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.text}
+                  </option>
+                ))}
+              </select>
               <span className="text-red-500">
                 {errors.desactiveDate?.message}
               </span>

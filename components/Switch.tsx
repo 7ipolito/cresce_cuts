@@ -6,10 +6,16 @@ type SwitchProps = {
   onClick?: (checked: boolean) => any
   role?: string
   control?: 'activeAll' | 'desactiveAll' | ''
+  checked?: boolean
 }
 
-const Switch = ({ onClick, control = '', role }: SwitchProps) => {
-  const [checkedState, setCheckedState] = useState(false)
+const Switch = ({
+  onClick,
+  control = '',
+  role,
+  checked = false,
+}: SwitchProps) => {
+  const [checkedState, setCheckedState] = useState(checked)
 
   useEffect(() => {
     if (control == 'activeAll') {

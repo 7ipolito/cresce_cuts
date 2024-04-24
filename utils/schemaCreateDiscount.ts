@@ -5,16 +5,22 @@ export const schemaCreateDiscount = object().shape({
   nameDiscount: string().required(ErrorFormTypes.OBRIGATORIO),
   description: string().required(ErrorFormTypes.OBRIGATORIO),
 
-  price: number().required(ErrorFormTypes.OBRIGATORIO),
+  price: number()
+    .typeError(ErrorFormTypes.VALOROBRIGATORIO)
+    .required(ErrorFormTypes.OBRIGATORIO),
 
-  priceWithDiscount: number(),
+  priceWithDiscount: number()
+    .typeError(ErrorFormTypes.VALOROBRIGATORIO)
+    .notRequired(),
 
-  take: number(),
+  take: number().typeError(ErrorFormTypes.VALOROBRIGATORIO).notRequired(),
 
-  pay: number(),
+  pay: number().typeError(ErrorFormTypes.VALOROBRIGATORIO).notRequired(),
 
   activateDate: string().required(ErrorFormTypes.OBRIGATORIO),
   desactiveDate: string().required(ErrorFormTypes.OBRIGATORIO),
   typeDiscount: string().required(ErrorFormTypes.OBRIGATORIO),
-  percentDiscount: number(),
+  percentDiscount: number()
+    .typeError(ErrorFormTypes.VALOROBRIGATORIO)
+    .notRequired(),
 })
