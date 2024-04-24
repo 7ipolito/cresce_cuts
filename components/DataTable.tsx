@@ -1,11 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable eqeqeq */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable react/jsx-key */
 import React, { useCallback, useEffect, useState } from 'react'
 import { Button } from './Button'
 import Switch from './Switch'
-import * as Select from './Form/Select'
 import * as Dialog from '@radix-ui/react-dialog'
 import { Discount } from 'types/DiscountProps'
 
@@ -15,6 +13,7 @@ import Link from 'next/link'
 import { ErrorFormTypes } from 'enums/erros.enum'
 import { PatternTimeout } from 'enums/timeout.enum'
 import { useDiscount } from 'hooks/useDiscount'
+import Select from './Form/Select'
 type DataTableProps = { columns: any[]; data: Discount[] }
 const DataTable = ({ columns, data }: DataTableProps) => {
   const { activeDiscount, desativeDiscount } = useDiscount()
@@ -62,35 +61,41 @@ const DataTable = ({ columns, data }: DataTableProps) => {
   }, [data, statusFilterSelected, typeDiscount, loading])
 
   const renderData = useCallback(() => {
-    return filteredData?.map((data: Discount) => (
-      <tr className="border-b bg-white dark:border-gray-700 dark:bg-gray-800">
+    return filteredData?.map((data: Discount, index: number) => (
+      <tr
+        key={index}
+        className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
+      >
         <td className="px-14 py-4">
           <div className="flex flex-row items-center">
             <div className="bg-red w-20">
               <img src={data.image} alt="Imagem do produto" />
             </div>
-            <p className="ml-4">{data.title}</p>
+            <p className="ml-4" role="discountTitle">
+              {data.title}
+            </p>
           </div>
         </td>
-        <td className="px-6 py-4">
-          {data.type == TypeDiscount.DEPOR
+        <td className="px-6 py-4" role="typeDiscountTdRole">
+          {data.type === TypeDiscount.DEPOR
             ? 'De / Por'
-            : data.type == TypeDiscount.LEVEMAISPAGUEMENOS
+            : data.type === TypeDiscount.LEVEMAISPAGUEMENOS
               ? 'Leve + Pague -'
-              : data.type == TypeDiscount.PERCENTUAL
-                ? data.type == TypeDiscount.PERCENTUAL
+              : data.type === TypeDiscount.PERCENTUAL
+                ? 'Percentual'
                 : 'NENHUM'}
         </td>
         <td className="px-6 py-4">
-          {data.activationDate != '' ? data.activationDate : 'Sem data'}
+          {data.activationDate !== '' ? data.activationDate : 'Sem data'}
         </td>
         <td className="px-6 py-4">
           {' '}
-          {data.desactivationDate != '' ? data.desactivationDate : 'Sem data'}
+          {data.desactivationDate !== '' ? data.desactivationDate : 'Sem data'}
         </td>
         <td className="px-6 py-4">
           <Switch
             control={controlSwitch}
+            role="switchRole"
             onClick={(checked) => {
               checked ? activeDiscount(data.id) : desativeDiscount(data.id)
             }}
@@ -104,7 +109,7 @@ const DataTable = ({ columns, data }: DataTableProps) => {
                 setDiscountSelected(data)
               }}
             >
-              <img src="/eye.png" />
+              <img src="/eye.png" alt="Visualizar" />
             </Button>
           </Dialog.Trigger>
         </td>
@@ -126,52 +131,36 @@ const DataTable = ({ columns, data }: DataTableProps) => {
         <div className="w-100 flex flex-col items-center gap-2 pb-6 lg:flex-row lg:justify-between">
           <div className="w-full">
             <p className="text-sm text-grey-secondary">Status</p>
-            <Select.Root
+
+            <Select
               name="statusSelected"
-              onValueChange={(e) => {
-                setStatusFilterSelected(e)
-              }}
-            >
-              <Select.Trigger>
-                <Select.Value placeholder="Selecione o status" />
-              </Select.Trigger>
-
-              <Select.Content>
-                <Select.Item value="1">
-                  <Select.ItemText>Ativado</Select.ItemText>
-                </Select.Item>
-
-                <Select.Item value="0">
-                  <Select.ItemText>Desativado</Select.ItemText>
-                </Select.Item>
-              </Select.Content>
-            </Select.Root>
+              role="selectStatus"
+              onChange={(e) => setStatusFilterSelected(e.target.value)}
+              options={[
+                { isSelected: true, text: 'Selecione o status', value: '' },
+                { text: 'Ativado', value: '1' },
+                { text: 'Desativado', value: '0' },
+              ]}
+            />
           </div>
 
           <div className="w-full">
             <p className="text-sm text-grey-secondary">Tipo desconto</p>
-            <Select.Root
-              name="typeDiscount"
-              onValueChange={(e) => {
-                setTypeDiscountSelected(e)
-              }}
-            >
-              <Select.Trigger>
-                <Select.Value placeholder="Selecione o tipo de desconto" />
-              </Select.Trigger>
 
-              <Select.Content>
-                <Select.Item value={TypeDiscount.DEPOR}>
-                  <Select.ItemText>De/Por</Select.ItemText>
-                </Select.Item>
-                <Select.Item value={TypeDiscount.PERCENTUAL}>
-                  <Select.ItemText>Percentual</Select.ItemText>
-                </Select.Item>
-                <Select.Item value={TypeDiscount.LEVEMAISPAGUEMENOS}>
-                  <Select.ItemText>Leve + Pague -</Select.ItemText>
-                </Select.Item>
-              </Select.Content>
-            </Select.Root>
+            <Select
+              name="typeDiscount"
+              role="selectTypeDiscount"
+              onChange={(e) => setTypeDiscountSelected(e.target.value)}
+              options={[
+                { isSelected: true, text: 'Selecione o status', value: '' },
+                { text: 'De/Por', value: TypeDiscount.DEPOR },
+                { text: 'Percentual', value: TypeDiscount.PERCENTUAL },
+                {
+                  text: 'Leve + Pague -',
+                  value: TypeDiscount.LEVEMAISPAGUEMENOS,
+                },
+              ]}
+            />
           </div>
         </div>
         <div className="relative w-full overflow-x-auto">

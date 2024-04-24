@@ -1,5 +1,3 @@
-/* eslint-disable eqeqeq */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 
 import { api } from 'app/api/axios/axios'
@@ -58,7 +56,10 @@ export const DiscountProvider = ({ children }: DiscountProviderProps) => {
             desactivationDate: '',
             image: discount.image,
             price: 0,
-            type: TypeDiscount.NENHUM,
+            type:
+              Math.floor(Math.random() * 2) + 1 == 1
+                ? TypeDiscount.PERCENTUAL
+                : TypeDiscount.LEVEMAISPAGUEMENOS,
           }
           return newData
         }),

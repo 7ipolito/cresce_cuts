@@ -1,11 +1,12 @@
 {
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "test": "jest --watch",
-    "test:ci": "jest --ci"
+    
+    "dev": " node ./scripts/setTimeoutNormal.js && next dev",
+    "build": "node ./scripts/setTimeoutNormal.js && next build",
+    "start": "node ./scripts/setTimeoutNormal.js && next start",
+    "test": "node ./scripts/setTimeoutToTests.js && jest --watch",
+    "test:ci": "node ./scripts/setTimeoutToTests.js && jest --ci"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",
@@ -28,8 +29,10 @@
   "devDependencies": {
     "@rocketseat/eslint-config": "^2.2.2",
     "@tailwindcss/forms": "^0.5.7",
-    "@testing-library/jest-dom": "6.1.5",
+    "@testing-library/dom": "^10.0.0",
+    "@testing-library/jest-dom": "^6.4.2",
     "@testing-library/react": "14.1.2",
+    "@testing-library/user-event": "^14.5.2",
     "@types/jest": "29.5.11",
     "@types/react": "18.2.45",
     "autoprefixer": "^10.4.19",

@@ -4,10 +4,11 @@ import React, { useEffect, useState } from 'react'
 
 type SwitchProps = {
   onClick?: (checked: boolean) => any
+  role?: string
   control?: 'activeAll' | 'desactiveAll' | ''
 }
 
-const Switch = ({ onClick, control = '' }: SwitchProps) => {
+const Switch = ({ onClick, control = '', role }: SwitchProps) => {
   const [checkedState, setCheckedState] = useState(false)
 
   useEffect(() => {
@@ -21,6 +22,7 @@ const Switch = ({ onClick, control = '' }: SwitchProps) => {
   return (
     <label className="inline-flex cursor-pointer items-center">
       <input
+        role={role}
         type="checkbox"
         className="peer sr-only"
         checked={checkedState}
