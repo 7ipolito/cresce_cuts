@@ -1,3 +1,4 @@
+/* eslint-disable no-prototype-builtins */
 'use client'
 
 import { api } from 'app/api/axios/axios'
@@ -13,6 +14,7 @@ import { v4 as uuidv4 } from 'uuid'
 
 import { Discount } from 'types/DiscountProps'
 import { TypeDiscount } from 'enums/types.enum'
+import { discounts } from 'utils/dataMocked'
 
 interface DiscountContextType {
   getDiscounts: () => Discount[]
@@ -39,7 +41,7 @@ interface DiscountProviderProps {
 export const DiscountProvider = ({ children }: DiscountProviderProps) => {
   const [discount, setDiscountState] = useState<Discount[]>([] as Discount[])
 
-  function convertDataToJson(): Discount[] {
+  function getConvertedData(): Discount[] {
     const localStorageDiscounts = localStorage.getItem('discount')
     return localStorageDiscounts ? JSON.parse(localStorageDiscounts) : ''
   }
@@ -83,25 +85,38 @@ export const DiscountProvider = ({ children }: DiscountProviderProps) => {
     if (discount[0]?.id) {
       return discount
     } else {
-      const newlocalStorageDiscounts: Discount[] = convertDataToJson()
+      const newlocalStorageDiscounts: Discount[] = getConvertedData()
       setDiscountState(newlocalStorageDiscounts)
       return newlocalStorageDiscounts
     }
   }
 
-  function updateDiscount(newDiscount: Discount) {
-    const newlocalStorageDiscounts = convertDataToJson()
-    newlocalStorageDiscounts.forEach((d: Discount, index) => {
-      if (d.id === newDiscount.id) {
-        newlocalStorageDiscounts[index] = newDiscount
+  function replaceProperties(array, obj) {
+    for (let i = 0; i < array.length; i++) {
+      if (array[i].id === obj.id) {
+        for (const key in obj) {
+          if (array[i].hasOwnProperty(key)) {
+            array[i][key] = obj[key]
+          }
+        }
       }
-    })
+    }
+    return array
+  }
 
-    setDiscountState(newlocalStorageDiscounts)
+  function updateDiscount(newDiscount: Discount) {
+    const newlocalStorageDiscounts = getConvertedData()
+
+    const updatedDiscounts = replaceProperties(
+      newlocalStorageDiscounts,
+      newDiscount,
+    )
+    setDiscountState(updatedDiscounts)
+    setDiscount(updatedDiscounts, false)
   }
 
   function createDiscount(newDiscount: Discount) {
-    const newlocalStorageDiscounts = convertDataToJson()
+    const newlocalStorageDiscounts = getConvertedData()
     const newListDiscounts = [...newlocalStorageDiscounts, newDiscount]
 
     setDiscountState(newListDiscounts)
@@ -121,7 +136,7 @@ export const DiscountProvider = ({ children }: DiscountProviderProps) => {
 
       setDiscountState(newlocalStorageDiscounts)
     } else {
-      const newlocalStorageDiscounts = convertDataToJson()
+      const newlocalStorageDiscounts = getConvertedData()
       newlocalStorageDiscounts.forEach((d: Discount, index) => {
         if (d.id === discountId) {
           newlocalStorageDiscounts[index].activate = true
@@ -147,7 +162,7 @@ export const DiscountProvider = ({ children }: DiscountProviderProps) => {
 
       setDiscountState(newlocalStorageDiscounts)
     } else {
-      const newlocalStorageDiscounts = convertDataToJson()
+      const newlocalStorageDiscounts = getConvertedData()
 
       newlocalStorageDiscounts.forEach((d: Discount, index) => {
         if (d.id === discountId) {

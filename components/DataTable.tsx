@@ -14,6 +14,7 @@ import { ErrorFormTypes } from 'enums/erros.enum'
 import { PatternTimeout } from 'enums/timeout.enum'
 import { useDiscount } from 'hooks/useDiscount'
 import Select from './Form/Select'
+import { useModal } from 'hooks/useModal'
 type DataTableProps = { columns: any[]; data: Discount[] }
 const DataTable = ({ columns, data }: DataTableProps) => {
   const { activeDiscount, desativeDiscount } = useDiscount()
@@ -27,6 +28,7 @@ const DataTable = ({ columns, data }: DataTableProps) => {
   const [controlSwitch, setControlSwitch] = useState('')
   const [loading, setIsLoading] = useState(true)
   const { getDiscounts } = useDiscount()
+  const { isOpen, openModal } = useModal()
 
   useEffect(() => {
     setTimeout(() => {
@@ -95,6 +97,7 @@ const DataTable = ({ columns, data }: DataTableProps) => {
         <td className="px-6 py-4">
           <Switch
             control={controlSwitch}
+            checked={data.activate}
             role="switchRole"
             onClick={(checked) => {
               checked ? desativeDiscount(data.id) : activeDiscount(data.id)
@@ -107,6 +110,7 @@ const DataTable = ({ columns, data }: DataTableProps) => {
               variant="ghost"
               onClick={() => {
                 setDiscountSelected(data)
+                openModal()
               }}
             >
               <img src="/eye.png" alt="Visualizar" />
@@ -118,7 +122,7 @@ const DataTable = ({ columns, data }: DataTableProps) => {
   }, [activeDiscount, desativeDiscount, filteredData])
 
   return (
-    <Dialog.Root>
+    <Dialog.Root open={isOpen}>
       <div className="rounded-md bg-white px-4 py-6">
         <div className="w-100 flex items-center justify-between pb-6">
           <h2 className="text-xl font-thin text-grey-primary">

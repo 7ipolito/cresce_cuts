@@ -11,13 +11,14 @@ import { twMerge } from 'tailwind-merge'
 import { IFormInputEditDiscountProps } from 'types/IFormInputEditDiscountProps'
 import { schemaEditDiscount } from 'utils/schemaEditDiscount'
 import { useSidebar } from 'hooks/useSidebar'
+import { useDiscount } from 'hooks/useDiscount'
+import { useModal } from 'hooks/useModal'
 
 type ModalProps = { discountSelected: Discount }
 const Modal = ({ discountSelected }: ModalProps) => {
   const [discountEditable, setDiscountEditable] = useState(false)
-  const { isSidebarOpen } = useSidebar()
 
-  const { toggleSidebar } = useSidebar()
+  const { toggleSidebar, isSidebarOpen } = useSidebar()
   const {
     register,
     handleSubmit,
@@ -27,8 +28,18 @@ const Modal = ({ discountSelected }: ModalProps) => {
     resolver: yupResolver(schemaEditDiscount),
   })
 
+  const { updateDiscount } = useDiscount()
+  const { closeModal } = useModal()
+
   const onSubmit = async (data: any) => {
-    alert('OI')
+    const newData = {
+      id: discountSelected.id,
+      ...data,
+    }
+    toggleSidebar()
+    updateDiscount(newData)
+
+    closeModal()
   }
 
   return (
@@ -50,6 +61,7 @@ const Modal = ({ discountSelected }: ModalProps) => {
               <button
                 className="text-violet11 hover:bg-violet4 focus:shadow-violet7 absolute right-[10px] top-[10px] inline-flex h-[25px] w-[25px] appearance-none items-center justify-center rounded-full focus:shadow-[0_0_0_2px] focus:outline-none"
                 aria-label="Close"
+                onClick={() => closeModal()}
               >
                 <Cross2Icon />
               </button>
@@ -102,7 +114,7 @@ const Modal = ({ discountSelected }: ModalProps) => {
                             {...register('take')}
                             name="take"
                             id="take"
-                            type="text"
+                            type="number"
                             placeholder="Valor de 'leve'"
                             defaultValue={discountSelected.take}
                             className="flex-1  border-0 bg-transparent p-0 text-zinc-900 placeholder-zinc-600 outline-none focus:ring-0 dark:text-zinc-100 dark:placeholder-zinc-400"
@@ -118,7 +130,7 @@ const Modal = ({ discountSelected }: ModalProps) => {
                             {...register('pay')}
                             name="pay"
                             id="pay"
-                            type="text"
+                            type="number"
                             placeholder="Valor de 'pague'"
                             defaultValue={discountSelected.pay}
                             className="flex-1  border-0 bg-transparent p-0 text-zinc-900 placeholder-zinc-600 outline-none focus:ring-0 dark:text-zinc-100 dark:placeholder-zinc-400"
@@ -190,7 +202,7 @@ const Modal = ({ discountSelected }: ModalProps) => {
                               {...register('price')}
                               name="price"
                               id="price"
-                              type="text"
+                              type="number"
                               placeholder="Preço Normal"
                               defaultValue={discountSelected.price}
                               className="flex-1  border-0 bg-transparent p-0 text-zinc-900 placeholder-zinc-600 outline-none focus:ring-0 dark:text-zinc-100 dark:placeholder-zinc-400"
@@ -218,7 +230,7 @@ const Modal = ({ discountSelected }: ModalProps) => {
                             {...register('priceWithDiscount')}
                             name="priceWithDiscount"
                             id="priceWithDiscount"
-                            type="text"
+                            type="number"
                             placeholder="Preço com desconto"
                             defaultValue={discountSelected.priceWithDiscount}
                             className="flex-1  border-0 bg-transparent p-0 text-zinc-900 placeholder-zinc-600 outline-none focus:ring-0 dark:text-zinc-100 dark:placeholder-zinc-400"
@@ -241,7 +253,7 @@ const Modal = ({ discountSelected }: ModalProps) => {
                         {...register('price')}
                         name="price"
                         id="price"
-                        type="text"
+                        type="number"
                         placeholder="Preço com desconto"
                         defaultValue={discountSelected.price}
                         className="flex-1  border-0 bg-transparent p-0 text-zinc-900 placeholder-zinc-600 outline-none focus:ring-0 dark:text-zinc-100 dark:placeholder-zinc-400"
@@ -271,7 +283,9 @@ const Modal = ({ discountSelected }: ModalProps) => {
 
                 {!discountEditable ? (
                   <Dialog.Close asChild>
-                    <Button className="w-full">Fechar</Button>
+                    <Button className="w-full" onClick={() => closeModal()}>
+                      Fechar
+                    </Button>
                   </Dialog.Close>
                 ) : (
                   <Button

@@ -12,7 +12,6 @@ export default function App() {
   const { getDiscounts } = useDiscount()
 
   useEffect(() => {
-    console.log(getDiscounts())
     setDiscounts(getDiscounts())
   }, [getDiscounts])
   return (

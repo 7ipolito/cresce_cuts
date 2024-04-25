@@ -3,7 +3,7 @@ import { TypeDiscount } from '../enums/types.enum'
 
 export const discounts: Discount[] = [
   {
-    id: 1,
+    id: '1',
     title: 'Bolsa',
     price: 109.95,
     priceBefore: 109.95,
@@ -17,7 +17,7 @@ export const discounts: Discount[] = [
     image: 'https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg',
   },
   {
-    id: 2,
+    id: '2',
     title: 'Camisa',
     price: 12.95,
     type: TypeDiscount.LEVEMAISPAGUEMENOS,
@@ -32,7 +32,7 @@ export const discounts: Discount[] = [
       'https://fakestoreapi.com/img/71-3HjGNDUL._AC_SY879._SX._UX._SY._UY_.jpg',
   },
   {
-    id: 3,
+    id: '3',
     title: 'Camisola',
     price: 109.95,
     priceWithDiscount: 99.0,
