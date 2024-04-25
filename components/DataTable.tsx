@@ -1,6 +1,9 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable eqeqeq */
 /* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @next/next/no-img-element */
+
 import React, { useCallback, useEffect, useState } from 'react'
 import { Button } from './Button'
 import Switch from './Switch'
@@ -25,7 +28,9 @@ const DataTable = ({ columns, data }: DataTableProps) => {
   const [statusFilterSelected, setStatusFilterSelected] = useState(null)
   const [typeDiscount, setTypeDiscountSelected] = useState(null)
   const [filteredData, setFilteredData] = useState<Discount[]>(data)
-  const [controlSwitch, setControlSwitch] = useState('')
+  const [controlSwitch, setControlSwitch] = useState<
+    'activeAll' | 'desactiveAll' | ''
+  >('')
   const [loading, setIsLoading] = useState(true)
   const { getDiscounts } = useDiscount()
   const { isOpen, openModal } = useModal()

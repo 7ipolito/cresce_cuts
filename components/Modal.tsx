@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Cross2Icon } from '@radix-ui/react-icons'
 import React, { useState } from 'react'
@@ -9,7 +10,6 @@ import * as Input from '../components/Form/Input'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { twMerge } from 'tailwind-merge'
-import { IFormInputEditDiscountProps } from 'types/IFormInputEditDiscountProps'
 import { schemaEditDiscount } from 'utils/schemaEditDiscount'
 import { useSidebar } from 'hooks/useSidebar'
 import { useDiscount } from 'hooks/useDiscount'
@@ -25,7 +25,7 @@ const Modal = ({ discountSelected }: ModalProps) => {
     handleSubmit,
 
     formState: { errors },
-  } = useForm<IFormInputEditDiscountProps>({
+  } = useForm({
     resolver: yupResolver(schemaEditDiscount),
   })
 
@@ -76,6 +76,7 @@ const Modal = ({ discountSelected }: ModalProps) => {
                 <img
                   src={discountSelected.image}
                   width={isSidebarOpen ? 70 : 200}
+                  alt="Imagem"
                 />
               </div>
               <div className="pt-4">

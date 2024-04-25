@@ -1,6 +1,8 @@
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable eqeqeq */
+/* eslint-disable @next/next/no-img-element */
+
 'use client'
 import { Button } from 'components/Button'
 import * as Input from '../../components/Form/Input'
@@ -11,7 +13,6 @@ import { TypeDiscount } from 'enums/types.enum'
 
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { IFormInputCreateDiscountProps } from 'types/IFormInputCreateDiscountProps'
 import { schemaCreateDiscount } from 'utils/schemaCreateDiscount'
 import { useDiscount } from 'hooks/useDiscount'
 import { v4 as uuidv4 } from 'uuid'
@@ -37,7 +38,7 @@ const CreateDiscount = () => {
     handleSubmit,
 
     formState: { errors },
-  } = useForm<IFormInputCreateDiscountProps>({
+  } = useForm({
     resolver: yupResolver(schemaCreateDiscount),
   })
 
@@ -420,7 +421,7 @@ const CreateDiscount = () => {
           <div>
             {imageUploadedUrl ? (
               <div className="tems-center flex justify-center">
-                <img src={imageUploadedUrl} width={500} />
+                <img src={imageUploadedUrl} width={500} alt="Imagem" />
               </div>
             ) : (
               <UploadDropzone

@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 import React, { ButtonHTMLAttributes } from 'react'
 import { tv, VariantProps } from 'tailwind-variants'
 import { Slot } from '@radix-ui/react-slot'
