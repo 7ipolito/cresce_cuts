@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable eqeqeq */
 import React, { useEffect, useState } from 'react'
 
 // import { Container } from './styles';
@@ -26,11 +28,9 @@ const Switch = ({
   }, [control])
 
   const handleClick = () => {
-    // Verifica se onClick é uma função antes de chamá-la
     if (onClick && typeof onClick === 'function') {
-      onClick(checkedState) // Chama onClick com o novo estado
+      onClick(checkedState)
     }
-    // Atualiza o estado local
   }
   return (
     <label className="inline-flex cursor-pointer items-center">

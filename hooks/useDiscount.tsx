@@ -1,3 +1,5 @@
+/* eslint-disable eqeqeq */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-prototype-builtins */
 'use client'
 
@@ -14,11 +16,9 @@ import { v4 as uuidv4 } from 'uuid'
 
 import { Discount } from 'types/DiscountProps'
 import { TypeDiscount } from 'enums/types.enum'
-import { discounts } from 'utils/dataMocked'
 
 interface DiscountContextType {
   getDiscounts: () => Discount[]
-  setDiscount: (discount: Discount[], isFromApi: boolean) => void
   updateDiscount: (newDiscount: Discount) => void
   createDiscount: (newDiscount: Discount) => void
   activeDiscount: (discountId: string) => void
@@ -27,7 +27,6 @@ interface DiscountContextType {
 
 const DiscountContext = createContext<DiscountContextType>({
   getDiscounts: () => [],
-  setDiscount: () => {},
   updateDiscount: () => [],
   createDiscount: () => [],
   activeDiscount: () => [],
@@ -91,7 +90,7 @@ export const DiscountProvider = ({ children }: DiscountProviderProps) => {
     }
   }
 
-  function replaceProperties(array, obj) {
+  function replaceProperties(array: any, obj: any) {
     for (let i = 0; i < array.length; i++) {
       if (array[i].id === obj.id) {
         for (const key in obj) {
@@ -191,7 +190,7 @@ export const DiscountProvider = ({ children }: DiscountProviderProps) => {
     <DiscountContext.Provider
       value={{
         updateDiscount,
-        setDiscount,
+
         getDiscounts,
         activeDiscount,
         desativeDiscount,

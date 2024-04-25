@@ -3,7 +3,7 @@
 'use client'
 import React, { useEffect, useState } from 'react'
 import DataTable from 'components/DataTable'
-import { discounts, titles } from 'utils/dataMocked'
+import { titles } from 'utils/dataMocked'
 import { useDiscount } from 'hooks/useDiscount'
 import { Discount } from 'types/DiscountProps'
 

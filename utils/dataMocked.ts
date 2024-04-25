@@ -55,3 +55,17 @@ export const titles = [
   'Status',
   'Edição',
 ]
+
+export const optionsSelect = [
+  {
+    isSelected: true,
+    text: 'Selecione o tipo de desconto',
+    value: '',
+  },
+  { text: 'De / Por', value: TypeDiscount.DEPOR },
+  {
+    text: 'Leve + Pague -',
+    value: TypeDiscount.LEVEMAISPAGUEMENOS,
+  },
+  { text: 'Percentual', value: TypeDiscount.PERCENTUAL },
+]

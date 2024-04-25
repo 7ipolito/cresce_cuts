@@ -1,15 +1,15 @@
 import React, { createContext, useState, useContext, ReactNode } from 'react'
 
-// Definindo o tipo para o estado do contexto
-type SidebarContextType = {
+interface SidebarContextProps {
   isSidebarOpen: boolean
   toggleSidebar: () => void
 }
+const initialSideBarContext: SidebarContextProps = {
+  isSidebarOpen: false,
+  toggleSidebar: () => {},
+}
+const SidebarContext = createContext<SidebarContextProps>(initialSideBarContext)
 
-// Criando o contexto
-const SidebarContext = createContext<SidebarContextType | undefined>(undefined)
-
-// Criando o provedor do contexto
 export const SidebarProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
@@ -28,8 +28,7 @@ export const SidebarProvider: React.FC<{ children: ReactNode }> = ({
   )
 }
 
-// Criando um hook personalizado para usar o contexto
-export const useSidebar = (): SidebarContextType => {
+export const useSidebar = (): SidebarContextProps => {
   const context = useContext(SidebarContext)
 
   return context

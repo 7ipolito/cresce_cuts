@@ -1,7 +1,10 @@
+/* eslint-disable react/no-unescaped-entities */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable eqeqeq */
 'use client'
 import { Button } from 'components/Button'
 import * as Input from '../../components/Form/Input'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import Switch from 'components/Switch'
 import { UploadDropzone } from 'utils/uploadthing'
 import { TypeDiscount } from 'enums/types.enum'
@@ -17,23 +20,11 @@ import { Discount } from 'types/DiscountProps'
 import { ErrorFormTypes } from 'enums/erros.enum'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { optionsSelect } from 'utils/dataMocked'
 
 const CreateDiscount = () => {
   const router = useRouter()
 
-  const options = [
-    {
-      isSelected: true,
-      text: 'Selecione o tipo de desconto',
-      value: '',
-    },
-    { text: 'De / Por', value: TypeDiscount.DEPOR },
-    {
-      text: 'Leve + Pague -',
-      value: TypeDiscount.LEVEMAISPAGUEMENOS,
-    },
-    { text: 'Percentual', value: TypeDiscount.PERCENTUAL },
-  ]
   const [imageUploadedError, setImageUploadedError] = useState(false)
   const [imageUploadedUrl, setImageUploadedUrl] = useState('')
   const [discountTypeSelected, setDiscountTypeSelected] = useState()
@@ -208,7 +199,7 @@ const CreateDiscount = () => {
               id={'typeDiscount'}
               className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
             >
-              {options.map((option) => (
+              {optionsSelect.map((option) => (
                 <option key={option.value} value={option.value}>
                   {option.text}
                 </option>

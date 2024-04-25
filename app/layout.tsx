@@ -1,5 +1,4 @@
 'use client'
-import type { Metadata } from 'next'
 import { Rubik } from 'next/font/google'
 import '../styles/globals.css'
 import { Sidebar } from 'components/Sidebar'

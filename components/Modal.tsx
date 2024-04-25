@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Cross2Icon } from '@radix-ui/react-icons'
 import React, { useState } from 'react'
 import { TypeDiscount } from 'enums/types.enum'
@@ -144,7 +145,7 @@ const Modal = ({ discountSelected }: ModalProps) => {
                     </div>
                   ))}
                 {!discountEditable ? (
-                  <p className="text-sm text-grey-primary">
+                  <p className="text-xl text-grey-primary">
                     {discountSelected.title}
                   </p>
                 ) : (
@@ -176,7 +177,7 @@ const Modal = ({ discountSelected }: ModalProps) => {
                       id="description"
                       defaultValue={discountSelected.description}
                       className={twMerge(
-                        'flex min-h-[120px] w-full resize-y items-center gap-2 rounded-lg border border-zinc-300 px-3 py-2 shadow-sm outline-none dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100 dark:placeholder-zinc-400',
+                        'mb-2 flex min-h-[120px] w-full resize-y items-center gap-2 rounded-lg border border-zinc-300 px-3 py-2 shadow-sm outline-none dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100 dark:placeholder-zinc-400',
                         'focus-within:blue-hover focus-within:border-blue-primary focus-within:ring-4 dark:focus-within:border-violet-500 dark:focus-within:ring-violet-500/10',
                       )}
                     />
@@ -190,32 +191,31 @@ const Modal = ({ discountSelected }: ModalProps) => {
                 discountSelected.type == TypeDiscount.PERCENTUAL ? (
                   <div>
                     {discountSelected.type == TypeDiscount.DEPOR && <p>de</p>}
-                    <p className="text-2xl font-medium text-grey-secondary line-through">
-                      {!discountEditable ? (
-                        <p className="text-2xl font-medium text-grey-secondary">
-                          R${discountSelected.price}
-                        </p>
-                      ) : (
-                        <div>
-                          <Input.Root className="mb-2">
-                            <input
-                              {...register('price')}
-                              name="price"
-                              id="price"
-                              type="number"
-                              placeholder="Preço Normal"
-                              defaultValue={discountSelected.price}
-                              className="flex-1  border-0 bg-transparent p-0 text-zinc-900 placeholder-zinc-600 outline-none focus:ring-0 dark:text-zinc-100 dark:placeholder-zinc-400"
-                            />
-                          </Input.Root>
-                        </div>
-                      )}
-                    </p>
-                    <div>
-                      <span className=" text-red-500">
-                        {errors.price?.message}
-                      </span>
-                    </div>
+
+                    {!discountEditable ? (
+                      <p className="text-2xl font-medium text-grey-secondary line-through">
+                        R${discountSelected.price}
+                      </p>
+                    ) : (
+                      <div>
+                        <Input.Root className="mb-2">
+                          <input
+                            {...register('price')}
+                            name="price"
+                            id="price"
+                            type="number"
+                            placeholder="Preço Normal"
+                            defaultValue={discountSelected.price}
+                            className="flex-1  border-0 bg-transparent p-0 text-zinc-900 placeholder-zinc-600 outline-none focus:ring-0 dark:text-zinc-100 dark:placeholder-zinc-400"
+                          />
+                        </Input.Root>
+                        <span className="  text-red-500">
+                          {errors.price?.message}
+                        </span>
+                      </div>
+                    )}
+
+                    <div></div>
                     {discountSelected.type == TypeDiscount.DEPOR && (
                       <span>por</span>
                     )}

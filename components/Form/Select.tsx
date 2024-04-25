@@ -8,7 +8,7 @@ interface Option extends SelectHTMLAttributes<HTMLSelectElement> {
 }
 interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   name: string
-  onChange: (e) => void
+  onChange: (e: any) => void
   options: Option[]
 }
 const Select = ({ name, onChange, options, ...props }: SelectProps) => {
