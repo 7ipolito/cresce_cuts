@@ -4,8 +4,17 @@ import { ErrorFormTypes } from 'enums/erros.enum.ts'
 import { DiscountProvider } from '../hooks/useDiscount'
 import { TypeDiscount } from '../enums/types.enum'
 import { UploadDropzone } from '../utils/uploadthing'
+jest.mock('next/navigation', () => ({
+  useRouter() {
+    return {
+      prefetch: () => null,
+    }
+  },
+}))
 
 describe('Tela de criacao de desconto', () => {
+  const jsdomAlert = window.alert // remember the jsdom alert
+  window.alert = () => {} // provide an empty implementation for window.alert
   afterEach(() => {
     jest.clearAllMocks()
   })
@@ -51,16 +60,14 @@ describe('Tela de criacao de desconto', () => {
     )
 
     const inputPriceDPRole = screen.getByRole('priceDPRole')
-    fireEvent.change(inputPriceDPRole, { target: { value: 'Texto de teste' } })
-    await waitFor(() => expect(inputPriceDPRole.value).toBe('Texto de teste'))
+    fireEvent.change(inputPriceDPRole, { target: { value: 20 } })
+    await waitFor(() => expect(inputPriceDPRole.value).toBe('20'))
 
     const inputPriceWithDiscountRole = screen.getByRole('priceWithDiscountRole')
     fireEvent.change(inputPriceWithDiscountRole, {
-      target: { value: 'Texto de teste' },
+      target: { value: 20 },
     })
-    await waitFor(() =>
-      expect(inputPriceWithDiscountRole.value).toBe('Texto de teste'),
-    )
+    await waitFor(() => expect(inputPriceWithDiscountRole.value).toBe('20'))
 
     const selectActivateDateRoleElement = screen.getByRole(
       'selectActivateDateRole',
@@ -239,4 +246,5 @@ describe('Tela de criacao de desconto', () => {
     expect(() => screen.getByText(ErrorFormTypes.VALOROBRIGATORIO)).toThrow()
     expect(() => screen.getByText(ErrorFormTypes.OBRIGATORIO)).toThrow()
   })
+  window.alert = jsdomAlert // restore the jsdom alert
 })

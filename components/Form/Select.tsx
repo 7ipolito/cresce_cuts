@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { SelectHTMLAttributes } from 'react'
 
 // import { Container } from './styles';
