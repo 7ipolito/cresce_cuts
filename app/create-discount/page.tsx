@@ -215,7 +215,7 @@ const CreateDiscount = () => {
                   htmlFor="price"
                   className="text-sm text-grey-secondary dark:text-zinc-100 "
                 >
-                  Preço "DE"
+                  Price "FROM"
                 </label>
                 <Input.Root className="mb-2">
                   <input
@@ -233,7 +233,7 @@ const CreateDiscount = () => {
               </div>
 
               <div className="w-full pt-5">
-                <p className="text-sm text-grey-secondary">Preço "POR"</p>
+                <p className="text-sm text-grey-secondary">Price "TO"</p>
                 <Input.Root className="mb-2">
                   <input
                     {...register("priceWithDiscount")}
@@ -260,7 +260,7 @@ const CreateDiscount = () => {
                   htmlFor="price"
                   className="text-sm  text-grey-secondary dark:text-zinc-100"
                 >
-                  Preço
+                  Price
                 </label>
                 <Input.Root>
                   <input
@@ -278,7 +278,7 @@ const CreateDiscount = () => {
               </div>
 
               <div className="w-full pt-5">
-                <p className="text-sm text-grey-secondary">Leve</p>
+                <p className="text-sm text-grey-secondary">Pay</p>
                 <Input.Root>
                   <input
                     {...register("take")}
@@ -287,7 +287,7 @@ const CreateDiscount = () => {
                     id="take"
                     type="number"
                     defaultValue=""
-                    placeholder='Valor de "Leve"'
+                    placeholder='Value of "PAY"'
                     className="flex-1 border-0 bg-transparent p-0 text-zinc-900 placeholder-zinc-600 outline-none focus:ring-0 dark:text-zinc-100 dark:placeholder-zinc-400"
                   />
                 </Input.Root>
@@ -295,7 +295,7 @@ const CreateDiscount = () => {
               </div>
 
               <div className="w-full pt-5">
-                <p className="text-sm text-grey-secondary">Pague</p>
+                <p className="text-sm text-grey-secondary">Buy</p>
                 <Input.Root>
                   <input
                     {...register("pay")}
@@ -304,7 +304,7 @@ const CreateDiscount = () => {
                     id="pay"
                     type="number"
                     defaultValue=""
-                    placeholder='Valor de "Pague"'
+                    placeholder='Valor de "Buy"'
                     className="flex-1 border-0 bg-transparent p-0 text-zinc-900 placeholder-zinc-600 outline-none focus:ring-0 dark:text-zinc-100 dark:placeholder-zinc-400"
                   />
                 </Input.Root>
@@ -320,7 +320,7 @@ const CreateDiscount = () => {
                   htmlFor="price"
                   className="text-sm  text-grey-secondary dark:text-zinc-100"
                 >
-                  Preço
+                  Price
                 </label>
                 <Input.Root>
                   <input
@@ -349,7 +349,7 @@ const CreateDiscount = () => {
                     id="percentDiscount"
                     type="number"
                     defaultValue=""
-                    placeholder='Valor de "Pague"'
+                    placeholder='Valor de "Buy"'
                     className="flex-1 border-0 bg-transparent p-0 text-zinc-900 placeholder-zinc-600 outline-none focus:ring-0 dark:text-zinc-100 dark:placeholder-zinc-400"
                   />
                 </Input.Root>

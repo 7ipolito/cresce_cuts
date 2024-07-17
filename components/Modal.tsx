@@ -107,7 +107,7 @@ const Modal = ({ discountSelected }: ModalProps) => {
                 {discountSelected.type == TypeDiscount.LEVEMAISPAGUEMENOS &&
                   (!discountEditable ? (
                     <p className="text-2xl font-medium text-grey-primary">
-                      Leve {discountSelected.take} pague {discountSelected.pay}
+                      Buy {discountSelected.take} pay {discountSelected.pay}
                     </p>
                   ) : (
                     <div>
@@ -206,7 +206,7 @@ const Modal = ({ discountSelected }: ModalProps) => {
                             name="price"
                             id="price"
                             type="number"
-                            placeholder="Preço Normal"
+                            placeholder="Normal price"
                             defaultValue={discountSelected.price}
                             className="flex-1  border-0 bg-transparent p-0 text-zinc-900 placeholder-zinc-600 outline-none focus:ring-0 dark:text-zinc-100 dark:placeholder-zinc-400"
                           />
@@ -233,7 +233,7 @@ const Modal = ({ discountSelected }: ModalProps) => {
                             name="priceWithDiscount"
                             id="priceWithDiscount"
                             type="number"
-                            placeholder="Preço com desconto"
+                            placeholder="Price with discount"
                             defaultValue={discountSelected.priceWithDiscount}
                             className="flex-1  border-0 bg-transparent p-0 text-zinc-900 placeholder-zinc-600 outline-none focus:ring-0 dark:text-zinc-100 dark:placeholder-zinc-400"
                           />
@@ -256,7 +256,7 @@ const Modal = ({ discountSelected }: ModalProps) => {
                         name="price"
                         id="price"
                         type="number"
-                        placeholder="Preço com desconto"
+                        placeholder="Price with discount"
                         defaultValue={discountSelected.price}
                         className="flex-1  border-0 bg-transparent p-0 text-zinc-900 placeholder-zinc-600 outline-none focus:ring-0 dark:text-zinc-100 dark:placeholder-zinc-400"
                       />
