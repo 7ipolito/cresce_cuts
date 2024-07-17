@@ -44,13 +44,13 @@ Before you start, ensure you have `node` and `npm` installed on your machine.
 1. **Clone the repository**:
    
    ```bash
-   git clone https://github.com/7ipolito/cresce_cuts.git
+   git clone https://github.com/7ipolito/manage-discounts.git
    ```
 
 2. **Navigate to the repository**:
 
    ```bash
-   cd cresce_cuts
+   cd manage-discounts
    ```
 
 3. **Install the dependencies**:
@@ -58,7 +58,13 @@ Before you start, ensure you have `node` and `npm` installed on your machine.
    - For install both dependecies run:
    
    ```bash
-   npm install
+   npm run install
+   # or
+   yarn install
+   # or
+   pnpm install
+   # or
+   bun install
    ```
 
 ## Running the Application
