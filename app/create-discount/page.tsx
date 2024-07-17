@@ -1,37 +1,38 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable eqeqeq */
 /* eslint-disable @next/next/no-img-element */
 
-'use client'
-import { Button } from 'components/Button'
-import * as Input from '../../components/Form/Input'
-import React, { useState } from 'react'
-import Switch from 'components/Switch'
-import { UploadDropzone } from 'utils/uploadthing'
-import { TypeDiscount } from 'enums/types.enum'
+"use client";
+import { Button } from "../../components/Button";
+import * as Input from "../../components/Form/Input";
+import React, { useState } from "react";
+import Switch from "../../components/Switch";
+import { UploadDropzone } from "../../utils/uploadthing";
+import { TypeDiscount } from "../../enums/types.enum";
 
-import { useForm } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { schemaCreateDiscount } from 'utils/schemaCreateDiscount'
-import { useDiscount } from 'hooks/useDiscount'
-import { v4 as uuidv4 } from 'uuid'
-import { utilsHours } from 'utils/activateDates'
-import { Discount } from 'types/DiscountProps'
-import { ErrorFormTypes } from 'enums/erros.enum'
-import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import { optionsSelect } from 'utils/dataMocked'
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { schemaCreateDiscount } from "utils/schemaCreateDiscount";
+import { useDiscount } from "../../hooks/useDiscount";
+import { v4 as uuidv4 } from "uuid";
+import { utilsHours } from "utils/activateDates";
+import { Discount } from "../../types/DiscountProps";
+import { ErrorFormTypes } from "../../enums/erros.enum";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { optionsSelect } from "utils/dataMocked";
 
 const CreateDiscount = () => {
-  const router = useRouter()
+  const router = useRouter();
 
-  const [imageUploadedError, setImageUploadedError] = useState(false)
-  const [imageUploadedUrl, setImageUploadedUrl] = useState('')
-  const [discountTypeSelected, setDiscountTypeSelected] = useState()
-  const [switchActive, setSwitchActive] = useState(true)
+  const [imageUploadedError, setImageUploadedError] = useState(false);
+  const [imageUploadedUrl, setImageUploadedUrl] = useState("");
+  const [discountTypeSelected, setDiscountTypeSelected] = useState();
+  const [switchActive, setSwitchActive] = useState(true);
 
-  const { createDiscount } = useDiscount()
+  const { createDiscount } = useDiscount();
 
   const {
     register,
@@ -40,7 +41,7 @@ const CreateDiscount = () => {
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schemaCreateDiscount),
-  })
+  });
 
   const onSubmit = async (data: any) => {
     if (imageUploadedUrl) {
@@ -56,9 +57,9 @@ const CreateDiscount = () => {
           type: data.typeDiscount,
           activationDate: data.activateDate,
           desactivationDate: data.desactiveDate,
-        }
-        createDiscount(newData)
-        router.push('/')
+        };
+        createDiscount(newData);
+        router.push("/");
       } else if (discountTypeSelected == TypeDiscount.LEVEMAISPAGUEMENOS) {
         const newData: Discount = {
           title: data.nameDiscount,
@@ -72,9 +73,9 @@ const CreateDiscount = () => {
           type: data.typeDiscount,
           activationDate: data.activateDate,
           desactivationDate: data.desactiveDate,
-        }
-        createDiscount(newData)
-        router.push('/')
+        };
+        createDiscount(newData);
+        router.push("/");
       } else if (discountTypeSelected == TypeDiscount.PERCENTUAL) {
         const newData: Discount = {
           title: data.nameDiscount,
@@ -87,35 +88,32 @@ const CreateDiscount = () => {
           type: data.typeDiscount,
           activationDate: data.activateDate,
           desactivationDate: data.desactiveDate,
-        }
-        createDiscount(newData)
-        router.push('/')
+        };
+        createDiscount(newData);
+        router.push("/");
       }
     } else {
-      setImageUploadedError(true)
+      setImageUploadedError(true);
     }
-  }
+  };
 
   return (
     <>
       <div className="pb-6">
         <h1 className="text-3xl font-medium text-grey-secondary">
-          Cadastrar Desconto
+          Create a discount
         </h1>
-        <p className="text-sm text-grey-primary">
-          Loja: Super João - Nova loja online
-        </p>
       </div>
 
       <div className="rounded-md bg-white px-6 py-4">
         <div className="flex flex-col">
           <div className="flex items-center justify-between  lg:flex-row  ">
             <h2 className="text-xl font-thin text-grey-primary">
-              Formulário cadastro desconto
+              Form register discount
             </h2>
 
             <div className="flex items-center gap-2">
-              <p className="text-sm text-grey-primary">Ativo</p>
+              <p className="text-sm text-grey-primary">Active</p>
               <Switch
                 role="switchRole"
                 checked={switchActive}
@@ -135,18 +133,18 @@ const CreateDiscount = () => {
               htmlFor="nameDiscount"
               className="text-sm font-medium text-zinc-700 dark:text-zinc-100"
             >
-              Nome do desconto
+              Name Discount
             </label>
             <div className="grid gap-6 ">
               <Input.Root>
                 <input
-                  {...register('nameDiscount')}
+                  {...register("nameDiscount")}
                   role="nameDiscountRole"
                   name="nameDiscount"
                   id="nameDiscount"
                   type="text"
                   defaultValue=""
-                  placeholder="Informe o Nome do desconto"
+                  placeholder="Type name of discount"
                   className="flex-1 border-0 bg-transparent p-0 text-zinc-900 placeholder-zinc-600 outline-none focus:ring-0 dark:text-zinc-100 dark:placeholder-zinc-400"
                 />
               </Input.Root>
@@ -160,18 +158,18 @@ const CreateDiscount = () => {
               htmlFor="description"
               className="text-sm font-medium text-zinc-700 dark:text-zinc-100"
             >
-              Descrição
+              Description
             </label>
             <div className="flex flex-col gap-3">
               <Input.Root>
                 <input
-                  {...register('description')}
+                  {...register("description")}
                   role="descriptionRole"
                   id="description"
                   type="description"
                   name="description"
                   defaultValue=""
-                  placeholder="Informe a descrição"
+                  placeholder="Type a description"
                   className="flex-1 border-0 bg-transparent p-0 text-zinc-900 placeholder-zinc-600 outline-none focus:ring-0 dark:text-zinc-100 dark:placeholder-zinc-400"
                 />
               </Input.Root>
@@ -185,19 +183,19 @@ const CreateDiscount = () => {
               htmlFor="typeDiscount"
               className="text-sm font-medium text-zinc-700 dark:text-zinc-100"
             >
-              Tipo de desconto
+              Type of discount
             </label>
 
             <select
               role="selectTypeDiscountRole"
-              {...register('typeDiscount', {
+              {...register("typeDiscount", {
                 onChange: (e) => {
-                  setDiscountTypeSelected(e.target.value)
+                  setDiscountTypeSelected(e.target.value);
                 },
               })}
-              name={'typeDiscount'}
+              name={"typeDiscount"}
               defaultValue=""
-              id={'typeDiscount'}
+              id={"typeDiscount"}
               className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
             >
               {optionsSelect.map((option) => (
@@ -221,13 +219,13 @@ const CreateDiscount = () => {
                 </label>
                 <Input.Root className="mb-2">
                   <input
-                    {...register('price')}
+                    {...register("price")}
                     role="priceDPRole"
                     name="price"
                     id="price"
                     type="number"
                     defaultValue=""
-                    placeholder="00,00R$"
+                    placeholder="00,00$"
                     className="flex-1  border-0 bg-transparent p-0 text-zinc-900 placeholder-zinc-600 outline-none focus:ring-0 dark:text-zinc-100 dark:placeholder-zinc-400"
                   />
                 </Input.Root>
@@ -238,13 +236,13 @@ const CreateDiscount = () => {
                 <p className="text-sm text-grey-secondary">Preço "POR"</p>
                 <Input.Root className="mb-2">
                   <input
-                    {...register('priceWithDiscount')}
+                    {...register("priceWithDiscount")}
                     role="priceWithDiscountRole"
                     name="priceWithDiscount"
                     id="priceWithDiscount"
                     type="number"
                     defaultValue=""
-                    placeholder="00,00R$"
+                    placeholder="00,00$"
                     className="flex-1 border-0 bg-transparent p-0 text-zinc-900 placeholder-zinc-600 outline-none focus:ring-0 dark:text-zinc-100 dark:placeholder-zinc-400"
                   />
                 </Input.Root>
@@ -266,13 +264,13 @@ const CreateDiscount = () => {
                 </label>
                 <Input.Root>
                   <input
-                    {...register('price')}
+                    {...register("price")}
                     role="priceLPMRole"
                     name="price"
                     id="price"
                     type="number"
                     defaultValue=""
-                    placeholder="00,00R$"
+                    placeholder="00,00$"
                     className="flex-1 border-0 bg-transparent p-0 text-zinc-900 placeholder-zinc-600 outline-none focus:ring-0 dark:text-zinc-100 dark:placeholder-zinc-400"
                   />
                 </Input.Root>
@@ -283,7 +281,7 @@ const CreateDiscount = () => {
                 <p className="text-sm text-grey-secondary">Leve</p>
                 <Input.Root>
                   <input
-                    {...register('take')}
+                    {...register("take")}
                     role="takeRole"
                     name="take"
                     id="take"
@@ -300,7 +298,7 @@ const CreateDiscount = () => {
                 <p className="text-sm text-grey-secondary">Pague</p>
                 <Input.Root>
                   <input
-                    {...register('pay')}
+                    {...register("pay")}
                     name="pay"
                     role="payRole"
                     id="pay"
@@ -326,13 +324,13 @@ const CreateDiscount = () => {
                 </label>
                 <Input.Root>
                   <input
-                    {...register('price')}
+                    {...register("price")}
                     name="price"
                     role="pricePRole"
                     id="price"
                     type="number"
                     defaultValue=""
-                    placeholder="00,00R$"
+                    placeholder="00,00$"
                     className="flex-1 border-0 bg-transparent p-0 text-zinc-900 placeholder-zinc-600 outline-none focus:ring-0 dark:text-zinc-100 dark:placeholder-zinc-400"
                   />
                 </Input.Root>
@@ -345,7 +343,7 @@ const CreateDiscount = () => {
                 </p>
                 <Input.Root>
                   <input
-                    {...register('percentDiscount')}
+                    {...register("percentDiscount")}
                     role="percentDiscountRole"
                     name="percentDiscount"
                     id="percentDiscount"
@@ -368,19 +366,19 @@ const CreateDiscount = () => {
                 htmlFor="activateDate"
                 className="text-sm  text-grey-secondary dark:text-zinc-100"
               >
-                Data ativação
+                Date activation
               </label>
 
               <select
                 role="selectActivateDateRole"
-                {...register('activateDate')}
-                name={'activateDate'}
-                id={'activateDate'}
+                {...register("activateDate")}
+                name={"activateDate"}
+                id={"activateDate"}
                 defaultValue=""
                 className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
               >
                 <option key="1" value="">
-                  Selecione a data de ativação
+                  Select a activation date
                 </option>
                 {utilsHours.map((option) => (
                   <option key={option.value} value={option.value}>
@@ -394,18 +392,18 @@ const CreateDiscount = () => {
             </div>
 
             <div className="w-full pt-5">
-              <p className="text-sm text-grey-secondary">Data de inativação</p>
+              <p className="text-sm text-grey-secondary">Date inactivation</p>
 
               <select
                 role="selectDesactiveDateSelectRole"
-                {...register('desactiveDate')}
+                {...register("desactiveDate")}
                 defaultValue=""
-                name={'desactiveDate'}
-                id={'desactiveDate'}
+                name={"desactiveDate"}
+                id={"desactiveDate"}
                 className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
               >
                 <option key="1" value="">
-                  Selecione a data de inativaçao
+                  Select a inactivation date
                 </option>
                 {utilsHours.map((option) => (
                   <option key={option.value} value={option.value}>
@@ -428,13 +426,13 @@ const CreateDiscount = () => {
                 endpoint="imageUploader"
                 onClientUploadComplete={(res: any) => {
                   // Do something with the response
-                  setImageUploadedError(false)
-                  setImageUploadedUrl(res[0].url)
+                  setImageUploadedError(false);
+                  setImageUploadedUrl(res[0].url);
 
-                  console.log('Files: ', res)
+                  console.log("Files: ", res);
                 }}
                 onUploadError={(error: Error) => {
-                  alert(`ERROR! ${error.message}`)
+                  alert(`ERROR! ${error.message}`);
                 }}
               />
             )}
@@ -448,19 +446,19 @@ const CreateDiscount = () => {
           <div className="flex items-center justify-end gap-2 pt-5">
             <Link href="/">
               <Button type="button" variant="outline">
-                Cancelar
+                Cancel
               </Button>
             </Link>
             {imageUploadedUrl && (
               <Button
                 onClick={() => {
-                  setImageUploadedUrl('')
+                  setImageUploadedUrl("");
                   if (!imageUploadedUrl) {
-                    setImageUploadedError(true)
+                    setImageUploadedError(true);
                   }
                 }}
               >
-                Editar imagem
+                Edit imagem
               </Button>
             )}
             <Button
@@ -469,19 +467,19 @@ const CreateDiscount = () => {
               form="form-create-discount"
               variant="primary"
               onClick={() => {
-                handleSubmit(onSubmit)
+                handleSubmit(onSubmit);
                 if (!imageUploadedUrl) {
-                  setImageUploadedError(true)
+                  setImageUploadedError(true);
                 }
               }}
             >
-              Salvar
+              Save
             </Button>
           </div>
         </form>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default CreateDiscount
+export default CreateDiscount;

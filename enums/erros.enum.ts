@@ -1,9 +1,9 @@
 export enum ErrorFormTypes {
-  OBRIGATORIO = 'Este campo é obrigatório',
-  VALOROBRIGATORIO = 'Este campo deve ser um valor',
-  TEXTOOBRIGATORIO = 'Este campo deve ser um texto',
-  SEMDADOS = 'Nada encontrado',
-  CARREGANDO = 'Carregando dados..',
-  ERROSMUDARDADOS = 'Erro ao mudar dados',
-  ERROIMAGEM = 'Voce precisa fazer o upload de alguma imagem',
+  OBRIGATORIO = "This field is required",
+  VALOROBRIGATORIO = "This field must be a value",
+  TEXTOOBRIGATORIO = "This field must be a text",
+  SEMDADOS = "Nothing found",
+  CARREGANDO = "Loading data..",
+  ERROSMUDARDADOS = "Error changing data",
+  ERROIMAGEM = "You need to upload an image",
 }

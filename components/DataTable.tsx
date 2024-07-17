@@ -1,71 +1,74 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable eqeqeq */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @next/next/no-img-element */
 
-import React, { useCallback, useEffect, useState } from 'react'
-import { Button } from './Button'
-import Switch from './Switch'
-import * as Dialog from '@radix-ui/react-dialog'
-import { Discount } from 'types/DiscountProps'
+import React, { useCallback, useEffect, useState } from "react";
+import { Button } from "./Button";
+import Switch from "./Switch";
+import * as Dialog from "@radix-ui/react-dialog";
+import { Discount } from "types/DiscountProps";
 
-import { TypeDiscount } from 'enums/types.enum'
-import Modal from './Modal'
-import Link from 'next/link'
-import { ErrorFormTypes } from 'enums/erros.enum'
-import { PatternTimeout } from 'enums/timeout.enum'
-import { useDiscount } from 'hooks/useDiscount'
-import Select from './Form/Select'
-import { useModal } from 'hooks/useModal'
-type DataTableProps = { columns: any[]; data: Discount[] }
+import { TypeDiscount } from "../enums/types.enum";
+import Modal from "./Modal";
+import Link from "next/link";
+import { ErrorFormTypes } from "../enums/erros.enum";
+import { PatternTimeout } from "../enums/timeout.enum";
+import { useDiscount } from "../hooks/useDiscount";
+import Select from "./Form/Select";
+import { useModal } from "../hooks/useModal";
+type DataTableProps = { columns: any[]; data: Discount[] };
 const DataTable = ({ columns, data }: DataTableProps) => {
-  const { activeDiscount, desativeDiscount } = useDiscount()
+  const { activeDiscount, desativeDiscount } = useDiscount();
 
   const [discountSelected, setDiscountSelected] = useState<Discount>(
     {} as Discount,
-  )
-  const [statusFilterSelected, setStatusFilterSelected] = useState(null)
-  const [typeDiscount, setTypeDiscountSelected] = useState(null)
-  const [filteredData, setFilteredData] = useState<Discount[]>(data)
+  );
+  const [statusFilterSelected, setStatusFilterSelected] = useState(null);
+  const [typeDiscount, setTypeDiscountSelected] = useState(null);
+  const [filteredData, setFilteredData] = useState<Discount[]>(data);
   const [controlSwitch, setControlSwitch] = useState<
-    'activeAll' | 'desactiveAll' | ''
-  >('')
-  const [loading, setIsLoading] = useState(true)
-  const { getDiscounts } = useDiscount()
-  const { isOpen, openModal } = useModal()
+    "activeAll" | "desactiveAll" | ""
+  >("");
+  const [loading, setIsLoading] = useState(true);
+  const { getDiscounts } = useDiscount();
+  const { isOpen, openModal } = useModal();
 
   useEffect(() => {
     setTimeout(() => {
       if (!filteredData[0]?.id && !filteredData && !typeDiscount) {
-        setFilteredData(getDiscounts())
+        setFilteredData(getDiscounts());
       }
-      setIsLoading(false)
-    }, PatternTimeout.TIMEOUTDATATABLE)
+      setIsLoading(false);
+    }, PatternTimeout.TIMEOUTDATATABLE);
 
     const applyFilter = () => {
-      let filtered = data
+      let filtered = data;
 
       if (statusFilterSelected !== null) {
         filtered = filtered.filter((discount) =>
           statusFilterSelected == 1 ? discount.activate : !discount.activate,
-        )
+        );
         if (statusFilterSelected == 0) {
-          setControlSwitch('activeAll')
+          setControlSwitch("activeAll");
         } else if (statusFilterSelected == 1) {
-          setControlSwitch('desactiveAll')
+          setControlSwitch("desactiveAll");
         }
       }
 
       if (typeDiscount !== null && typeDiscount !== TypeDiscount.NENHUM) {
-        filtered = filtered.filter((discount) => discount.type === typeDiscount)
+        filtered = filtered.filter(
+          (discount) => discount.type === typeDiscount,
+        );
       }
 
-      setFilteredData(filtered)
-    }
+      setFilteredData(filtered);
+    };
 
-    applyFilter()
-  }, [data, statusFilterSelected, typeDiscount, loading])
+    applyFilter();
+  }, [data, statusFilterSelected, typeDiscount, loading]);
 
   const renderData = useCallback(() => {
     return filteredData?.map((data: Discount, index: number) => (
@@ -85,19 +88,19 @@ const DataTable = ({ columns, data }: DataTableProps) => {
         </td>
         <td className="px-6 py-4" role="typeDiscountTdRole">
           {data.type === TypeDiscount.DEPOR
-            ? 'De / Por'
+            ? "From / To"
             : data.type === TypeDiscount.LEVEMAISPAGUEMENOS
-              ? 'Leve + Pague -'
+              ? "Buy more and pay less"
               : data.type === TypeDiscount.PERCENTUAL
-                ? 'Percentual'
-                : 'NENHUM'}
+                ? "Percentage"
+                : "No have"}
         </td>
         <td className="px-6 py-4">
-          {data.activationDate !== '' ? data.activationDate : 'Sem data'}
+          {data.activationDate !== "" ? data.activationDate : "No have"}
         </td>
         <td className="px-6 py-4">
-          {' '}
-          {data.desactivationDate !== '' ? data.desactivationDate : 'Sem data'}
+          {" "}
+          {data.desactivationDate !== "" ? data.desactivationDate : "No have"}
         </td>
         <td className="px-6 py-4">
           <Switch
@@ -105,7 +108,7 @@ const DataTable = ({ columns, data }: DataTableProps) => {
             checked={data.activate}
             role="switchRole"
             onClick={(checked) => {
-              checked ? desativeDiscount(data.id) : activeDiscount(data.id)
+              checked ? desativeDiscount(data.id) : activeDiscount(data.id);
             }}
           />
         </td>
@@ -114,8 +117,8 @@ const DataTable = ({ columns, data }: DataTableProps) => {
             <Button
               variant="ghost"
               onClick={() => {
-                setDiscountSelected(data)
-                openModal()
+                setDiscountSelected(data);
+                openModal();
               }}
             >
               <img src="/eye.png" alt="Visualizar" />
@@ -123,18 +126,18 @@ const DataTable = ({ columns, data }: DataTableProps) => {
           </Dialog.Trigger>
         </td>
       </tr>
-    ))
-  }, [activeDiscount, desativeDiscount, filteredData])
+    ));
+  }, [activeDiscount, desativeDiscount, filteredData]);
 
   return (
     <Dialog.Root open={isOpen}>
       <div className="rounded-md bg-white px-4 py-6">
         <div className="w-100 flex items-center justify-between pb-6">
           <h2 className="text-xl font-thin text-grey-primary">
-            Descontos cadastrados
+            Discounts created
           </h2>
           <Link href="/create-discount">
-            <Button>Novo Desconto</Button>
+            <Button>Create Discount</Button>
           </Link>
         </div>
         <div className="w-100 flex flex-col items-center gap-2 pb-6 lg:flex-row lg:justify-between">
@@ -147,15 +150,15 @@ const DataTable = ({ columns, data }: DataTableProps) => {
               defaultValue=""
               onChange={(e) => setStatusFilterSelected(e.target.value)}
               options={[
-                { text: 'Selecione o status', value: '' },
-                { text: 'Ativado', value: '1' },
-                { text: 'Desativado', value: '0' },
+                { text: "Select a status", value: "" },
+                { text: "Activated", value: "1" },
+                { text: "Desactivated", value: "0" },
               ]}
             />
           </div>
 
           <div className="w-full">
-            <p className="text-sm text-grey-secondary">Tipo desconto</p>
+            <p className="text-sm text-grey-secondary">Type of discount</p>
 
             <Select
               name="typeDiscount"
@@ -164,13 +167,13 @@ const DataTable = ({ columns, data }: DataTableProps) => {
               options={[
                 {
                   isSelected: true,
-                  text: 'Selecione o tipo de desconto',
-                  value: '',
+                  text: "Select a type of discount",
+                  value: "",
                 },
-                { text: 'De/Por', value: TypeDiscount.DEPOR },
-                { text: 'Percentual', value: TypeDiscount.PERCENTUAL },
+                { text: "From/To", value: TypeDiscount.DEPOR },
+                { text: "Percentage", value: TypeDiscount.PERCENTUAL },
                 {
-                  text: 'Leve + Pague -',
+                  text: "Buy more pay less",
                   value: TypeDiscount.LEVEMAISPAGUEMENOS,
                 },
               ]}
@@ -192,13 +195,13 @@ const DataTable = ({ columns, data }: DataTableProps) => {
           </table>
           {!loading && !filteredData[0] && (
             <div className="flex w-full flex-1 items-center justify-center pt-5">
-              {' '}
+              {" "}
               <p>{ErrorFormTypes.SEMDADOS}</p>
             </div>
           )}
           {loading && (
             <div className="flex w-full flex-1 items-center justify-center pt-5">
-              {' '}
+              {" "}
               <p>{ErrorFormTypes.CARREGANDO}</p>
             </div>
           )}
@@ -206,7 +209,7 @@ const DataTable = ({ columns, data }: DataTableProps) => {
       </div>
       <Modal discountSelected={discountSelected} />
     </Dialog.Root>
-  )
-}
+  );
+};
 
-export default DataTable
+export default DataTable;

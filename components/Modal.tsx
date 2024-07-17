@@ -1,25 +1,26 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable eqeqeq */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Cross2Icon } from '@radix-ui/react-icons'
-import React, { useState } from 'react'
-import { TypeDiscount } from 'enums/types.enum'
-import { Button } from './Button'
-import * as Dialog from '@radix-ui/react-dialog'
-import { Discount } from 'types/DiscountProps'
-import * as Input from '../components/Form/Input'
-import { useForm } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { twMerge } from 'tailwind-merge'
-import { schemaEditDiscount } from 'utils/schemaEditDiscount'
-import { useSidebar } from 'hooks/useSidebar'
-import { useDiscount } from 'hooks/useDiscount'
-import { useModal } from 'hooks/useModal'
+import { Cross2Icon } from "@radix-ui/react-icons";
+import React, { useState } from "react";
+import { TypeDiscount } from "../enums/types.enum";
+import { Button } from "./Button";
+import * as Dialog from "@radix-ui/react-dialog";
+import { Discount } from "../types/DiscountProps";
+import * as Input from "./Form/Input";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { twMerge } from "tailwind-merge";
+import { schemaEditDiscount } from "utils/schemaEditDiscount";
+import { useSidebar } from "../hooks/useSidebar";
+import { useDiscount } from "../hooks/useDiscount";
+import { useModal } from "../hooks/useModal";
 
-type ModalProps = { discountSelected: Discount }
+type ModalProps = { discountSelected: Discount };
 const Modal = ({ discountSelected }: ModalProps) => {
-  const [discountEditable, setDiscountEditable] = useState(false)
+  const [discountEditable, setDiscountEditable] = useState(false);
 
-  const { toggleSidebar, isSidebarOpen } = useSidebar()
+  const { toggleSidebar, isSidebarOpen } = useSidebar();
   const {
     register,
     handleSubmit,
@@ -27,21 +28,21 @@ const Modal = ({ discountSelected }: ModalProps) => {
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schemaEditDiscount),
-  })
+  });
 
-  const { updateDiscount } = useDiscount()
-  const { closeModal } = useModal()
+  const { updateDiscount } = useDiscount();
+  const { closeModal } = useModal();
 
   const onSubmit = async (data: any) => {
     const newData = {
       id: discountSelected.id,
       ...data,
-    }
-    toggleSidebar()
-    updateDiscount(newData)
+    };
+    toggleSidebar();
+    updateDiscount(newData);
 
-    closeModal()
-  }
+    closeModal();
+  };
 
   return (
     <div className="h-64 overflow-y-auto">
@@ -55,7 +56,7 @@ const Modal = ({ discountSelected }: ModalProps) => {
           >
             <div className="flex justify-center">
               <Dialog.Title className="text-[16px] font-medium">
-                Detalhes do produto
+                Details of product
               </Dialog.Title>
             </div>
             <Dialog.Close asChild>
@@ -69,7 +70,7 @@ const Modal = ({ discountSelected }: ModalProps) => {
             </Dialog.Close>
             <Dialog.Description
               className={
-                !discountEditable ? 'flex flex-row justify-between' : ''
+                !discountEditable ? "flex flex-row justify-between" : ""
               }
             >
               <div className=" flex w-full items-center justify-center px-4">
@@ -89,7 +90,7 @@ const Modal = ({ discountSelected }: ModalProps) => {
                     <div>
                       <Input.Root className="mb-2">
                         <input
-                          {...register('percentDiscount')}
+                          {...register("percentDiscount")}
                           name="percentDiscount"
                           id="percentDiscount"
                           type="text"
@@ -113,7 +114,7 @@ const Modal = ({ discountSelected }: ModalProps) => {
                       <div className="flex flex-row">
                         <Input.Root className="mb-2 ">
                           <input
-                            {...register('take')}
+                            {...register("take")}
                             name="take"
                             id="take"
                             type="number"
@@ -129,7 +130,7 @@ const Modal = ({ discountSelected }: ModalProps) => {
                       <div>
                         <Input.Root className="mb-2 ">
                           <input
-                            {...register('pay')}
+                            {...register("pay")}
                             name="pay"
                             id="pay"
                             type="number"
@@ -153,7 +154,7 @@ const Modal = ({ discountSelected }: ModalProps) => {
                   <div>
                     <Input.Root className="mb-2">
                       <input
-                        {...register('title')}
+                        {...register("title")}
                         name="title"
                         id="title"
                         type="text"
@@ -173,13 +174,13 @@ const Modal = ({ discountSelected }: ModalProps) => {
                 ) : (
                   <div className="mb-2">
                     <textarea
-                      {...register('description')}
+                      {...register("description")}
                       name="description"
                       id="description"
                       defaultValue={discountSelected.description}
                       className={twMerge(
-                        'mb-2 flex min-h-[120px] w-full resize-y items-center gap-2 rounded-lg border border-zinc-300 px-3 py-2 shadow-sm outline-none dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100 dark:placeholder-zinc-400',
-                        'focus-within:blue-hover focus-within:border-blue-primary focus-within:ring-4 dark:focus-within:border-violet-500 dark:focus-within:ring-violet-500/10',
+                        "mb-2 flex min-h-[120px] w-full resize-y items-center gap-2 rounded-lg border border-zinc-300 px-3 py-2 shadow-sm outline-none dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100 dark:placeholder-zinc-400",
+                        "focus-within:blue-hover focus-within:border-blue-primary focus-within:ring-4 dark:focus-within:border-violet-500 dark:focus-within:ring-violet-500/10",
                       )}
                     />
                     <span className=" text-red-500">
@@ -195,13 +196,13 @@ const Modal = ({ discountSelected }: ModalProps) => {
 
                     {!discountEditable ? (
                       <p className="text-2xl font-medium text-grey-secondary line-through">
-                        R${discountSelected.price}
+                        ${discountSelected.price}
                       </p>
                     ) : (
                       <div>
                         <Input.Root className="mb-2">
                           <input
-                            {...register('price')}
+                            {...register("price")}
                             name="price"
                             id="price"
                             type="number"
@@ -222,13 +223,13 @@ const Modal = ({ discountSelected }: ModalProps) => {
                     )}
                     {!discountEditable ? (
                       <p className="text-2xl font-medium text-grey-secondary">
-                        R${discountSelected.priceWithDiscount}
+                        ${discountSelected.priceWithDiscount}
                       </p>
                     ) : (
                       <div>
                         <Input.Root className="mb-2">
                           <input
-                            {...register('priceWithDiscount')}
+                            {...register("priceWithDiscount")}
                             name="priceWithDiscount"
                             id="priceWithDiscount"
                             type="number"
@@ -245,13 +246,13 @@ const Modal = ({ discountSelected }: ModalProps) => {
                   </div>
                 ) : !discountEditable ? (
                   <p className="text-2xl font-medium text-grey-secondary">
-                    R$ {discountSelected.price}
+                    $ {discountSelected.price}
                   </p>
                 ) : (
                   <div>
                     <Input.Root className="mb-2">
                       <input
-                        {...register('price')}
+                        {...register("price")}
                         name="price"
                         id="price"
                         type="number"
@@ -274,18 +275,18 @@ const Modal = ({ discountSelected }: ModalProps) => {
                   className="w-full"
                   variant="outline"
                   onClick={(event) => {
-                    event.preventDefault()
-                    setDiscountEditable(!discountEditable)
-                    toggleSidebar()
+                    event.preventDefault();
+                    setDiscountEditable(!discountEditable);
+                    toggleSidebar();
                   }}
                 >
-                  {discountEditable ? 'Cancelar edição' : 'Editar'}
+                  {discountEditable ? "Cancel" : "Edit"}
                 </Button>
 
                 {!discountEditable ? (
                   <Dialog.Close asChild>
                     <Button className="w-full" onClick={() => closeModal()}>
-                      Fechar
+                      Close
                     </Button>
                   </Dialog.Close>
                 ) : (
@@ -295,7 +296,7 @@ const Modal = ({ discountSelected }: ModalProps) => {
                     onClick={handleSubmit(onSubmit)}
                     form="form-edit-discount"
                   >
-                    Salvar
+                    Save
                   </Button>
                 )}
               </div>
@@ -304,7 +305,7 @@ const Modal = ({ discountSelected }: ModalProps) => {
         </Dialog.Content>
       </Dialog.Portal>
     </div>
-  )
-}
+  );
+};
 
-export default Modal
+export default Modal;

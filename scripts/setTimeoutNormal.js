@@ -11,5 +11,5 @@ fs.writeFile('./enums/timeout.enum.ts', enumAsString, (err) => {
     console.error('Erro ao escrever no arquivo:', err)
     return
   }
-  console.log('Valor de timeout do datatable alterado 3000ms')
+  console.log('Value of timeout datatable changed 3000ms')
 })
