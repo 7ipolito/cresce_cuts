@@ -118,7 +118,7 @@ const Modal = ({ discountSelected }: ModalProps) => {
                             name="take"
                             id="take"
                             type="number"
-                            placeholder="Valor de 'leve'"
+                            placeholder="Value of 'leve'"
                             defaultValue={discountSelected.take}
                             className="flex-1  border-0 bg-transparent p-0 text-zinc-900 placeholder-zinc-600 outline-none focus:ring-0 dark:text-zinc-100 dark:placeholder-zinc-400"
                           />
@@ -134,7 +134,7 @@ const Modal = ({ discountSelected }: ModalProps) => {
                             name="pay"
                             id="pay"
                             type="number"
-                            placeholder="Valor de 'pague'"
+                            placeholder="Value of 'pague'"
                             defaultValue={discountSelected.pay}
                             className="flex-1  border-0 bg-transparent p-0 text-zinc-900 placeholder-zinc-600 outline-none focus:ring-0 dark:text-zinc-100 dark:placeholder-zinc-400"
                           />

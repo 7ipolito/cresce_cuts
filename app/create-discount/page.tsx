@@ -304,7 +304,7 @@ const CreateDiscount = () => {
                     id="pay"
                     type="number"
                     defaultValue=""
-                    placeholder='Valor de "Buy"'
+                    placeholder='Value of "Buy"'
                     className="flex-1 border-0 bg-transparent p-0 text-zinc-900 placeholder-zinc-600 outline-none focus:ring-0 dark:text-zinc-100 dark:placeholder-zinc-400"
                   />
                 </Input.Root>
@@ -339,7 +339,7 @@ const CreateDiscount = () => {
 
               <div className="w-full pt-5">
                 <p className="text-sm text-grey-secondary">
-                  Percentual do desconto
+                  Percentage of discount
                 </p>
                 <Input.Root>
                   <input
@@ -349,7 +349,7 @@ const CreateDiscount = () => {
                     id="percentDiscount"
                     type="number"
                     defaultValue=""
-                    placeholder='Valor de "Buy"'
+                    placeholder='Value of "Buy"'
                     className="flex-1 border-0 bg-transparent p-0 text-zinc-900 placeholder-zinc-600 outline-none focus:ring-0 dark:text-zinc-100 dark:placeholder-zinc-400"
                   />
                 </Input.Root>
